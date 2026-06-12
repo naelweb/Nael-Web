@@ -262,15 +262,14 @@ header.scrolled .brand-logo-img {
     background-color: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 1.25rem;
     box-shadow: var(--shadow-base);
     transition: var(--transition);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    min-height: 165px;
+    gap: 1rem;
+    min-height: 250px;
     position: relative;
-    overflow: hidden;
 }
 
 .summary-card:hover {
@@ -279,64 +278,308 @@ header.scrolled .brand-logo-img {
     box-shadow: var(--shadow-hover);
 }
 
-/* Sparkline Chart Pemanis */
-.summary-card-chart-wrapper {
-    position: absolute;
-    right: -2%;
-    bottom: -8px;
-    width: 45%;
-    height: 70px;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.65;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+.summary-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
 }
 
-.summary-card:hover .summary-card-chart-wrapper {
-    opacity: 0.95;
-    transform: translateY(-2px);
-}
-
-.summary-sparkline {
-    width: 100%;
-    height: 100%;
-    display: block;
-    overflow: visible;
-}
-
-.card-title {
+.summary-card .card-title {
     font-size: 0.8rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.75rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.2rem;
 }
 
-.card-value {
-    font-size: 2rem;
+.summary-card .card-subtitle {
+    font-size: 1.15rem;
     font-weight: 800;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    line-height: 1.1;
+    margin-bottom: 0;
+    line-height: 1.3;
     letter-spacing: -0.02em;
 }
 
-.card-value.loading-text {
-    font-size: 1.1rem;
-    color: var(--text-muted);
+.summary-card-body {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 1.25rem;
+    align-items: center;
+    flex-grow: 1;
 }
 
-.card-subtitle {
-    font-size: 0.8rem;
-    color: var(--text-muted);
+@media (max-width: 480px) {
+    .summary-card-body {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        justify-items: stretch;
+        text-align: left;
+    }
+    
+    .gauge-container {
+        display: none !important;
+    }
+    
+    .mobile-gauge-bar {
+        display: block;
+        width: 100%;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 9999px;
+        overflow: visible;
+        margin: 0.25rem 0 0.5rem 0;
+        position: relative;
+    }
+    
+    .mobile-gauge-fill {
+        height: 100%;
+        border-radius: 9999px;
+        width: 0%;
+    }
+    
+    body.loaded .mobile-gauge-fill {
+        width: var(--progress-pct, 0%);
+        transition: width 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .summary-card.theme-blue .mobile-gauge-fill {
+        background: var(--accent-cyan);
+        filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.8));
+    }
+    
+    .summary-card.theme-green .mobile-gauge-fill {
+        background: var(--pupr-yellow);
+        filter: drop-shadow(0 0 4px rgba(140, 255, 46, 0.8));
+    }
+}
+
+.summary-card-footer {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.35rem;
+    font-size: 0.56rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    padding-top: 0.65rem;
+    margin-top: 0.25rem;
 }
 
-.card-subtitle i {
+.summary-card-footer i {
+    color: var(--success);
+    font-size: 0.65rem;
+}
+
+/* Mobile Horizontal Progress Bar (hidden on desktop) */
+.mobile-gauge-bar {
+    display: none;
+}
+
+/* Circular Progress Gauge classes */
+.gauge-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gauge-svg {
+    width: 100%;
+    height: 100%;
+    transform-origin: center;
+    transform: rotate(-90deg);
+    overflow: visible; /* Prevent square shadow clipping box */
+}
+
+.gauge-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.05);
+    stroke-width: 2.2;
+}
+
+.gauge-progress {
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.5s ease;
+    overflow: visible; /* Prevent square shadow clipping box */
+    stroke-dashoffset: 100; /* Start hidden for draw animation */
+}
+
+.summary-card.theme-blue .gauge-progress {
+    stroke: var(--accent-cyan);
+}
+
+.summary-card.theme-green .gauge-progress {
+    stroke: var(--pupr-yellow);
+}
+
+/* Page Loaded Animations (triggered once body receives .loaded class) */
+body.loaded .summary-card.theme-blue .gauge-svg {
+    animation: spinGauge 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+               pulseGlowBlue 2s ease-in-out 1.6s infinite alternate;
+}
+
+body.loaded .summary-card.theme-green .gauge-svg {
+    animation: spinGauge 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+               pulseGlowGreen 2s ease-in-out 1.6s infinite alternate;
+}
+
+body.loaded .gauge-progress {
+    animation: drawGauge 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Keyframe animations for Circular Gauge */
+@keyframes drawGauge {
+    from {
+        stroke-dashoffset: 100;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes spinGauge {
+    from {
+        transform: rotate(-90deg);
+    }
+    to {
+        transform: rotate(270deg);
+    }
+}
+
+@keyframes pulseGlowBlue {
+    0% {
+        filter: drop-shadow(0 0 2px rgba(99, 102, 241, 0.5));
+    }
+    100% {
+        filter: drop-shadow(0 0 8px rgba(99, 102, 241, 1));
+    }
+}
+
+@keyframes pulseGlowGreen {
+    0% {
+        filter: drop-shadow(0 0 2px rgba(140, 255, 46, 0.5));
+    }
+    100% {
+        filter: drop-shadow(0 0 8px rgba(140, 255, 46, 1));
+    }
+}
+
+.gauge-text {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    pointer-events: none;
+}
+
+.gauge-percentage {
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.summary-card.theme-blue .gauge-percentage {
+    color: var(--accent-cyan);
+}
+
+.summary-card.theme-green .gauge-percentage {
     color: var(--pupr-yellow);
+}
+
+.gauge-label {
+    font-size: 0.45rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    margin-top: 0.15rem;
+    text-transform: uppercase;
+}
+
+/* Card details list and metric box */
+.card-details-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-grow: 1;
+    width: 100%;
+}
+
+.card-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.72rem;
+}
+
+.detail-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.detail-value {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.summary-card.theme-blue .detail-value.highlight {
+    color: var(--accent-cyan);
+}
+
+.summary-card.theme-green .detail-value.highlight {
+    color: var(--pupr-yellow);
+}
+
+.card-metric-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+    padding: 0.5rem 0.65rem;
+    margin-top: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.metric-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.metric-value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.summary-card.theme-blue .metric-value {
+    color: var(--accent-cyan);
+}
+
+.summary-card.theme-green .metric-value {
+    color: var(--pupr-yellow);
+}
+
+.metric-unit {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-left: 0.15rem;
 }
 
 /* Progress Bar */

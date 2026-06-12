@@ -876,14 +876,58 @@ function renderSummaryCards() {
             if (titleEl) titleEl.textContent = rCard.title;
             if (subtitleEl) subtitleEl.textContent = rCard.subtitle;
             
-            const rLabel = document.getElementById(`card-${year}-rencana`);
-            const pLabel = document.getElementById(`card-${year}-panjang`);
-            if (rLabel) rLabel.textContent = `${rCard.rencana.toFixed(2).replace('.', ',')}%`;
-            if (pLabel) pLabel.textContent = `${rCard.panjang.toFixed(2).replace('.', ',')} Km`;
+            const rencanaValEl = document.getElementById(`card-${year}-rencana-val`);
+            const realisasiValEl = document.getElementById(`card-${year}-realisasi-val`);
+            const panjangValEl = document.getElementById(`card-${year}-panjang-val`);
+            const metricLblEl = document.getElementById(`card-${year}-metric-lbl`);
+            const gaugeProgressEl = document.getElementById(`gauge-progress-${year}`);
+            const gaugePctEl = document.getElementById(`gauge-pct-${year}`);
+            const gaugeLblEl = document.getElementById(`gauge-lbl-${year}`);
             
-            if (year === 2025) {
-                const aLabel = document.getElementById('card-2025-realisasi');
-                if (aLabel) aLabel.textContent = `${rCard.realisasi.toFixed(2).replace('.', ',')}%`;
+            if (rencanaValEl) rencanaValEl.textContent = `${rCard.rencana.toFixed(2).replace('.', ',')}%`;
+            if (realisasiValEl) {
+                realisasiValEl.textContent = rCard.realisasi !== null ? `${rCard.realisasi.toFixed(2).replace('.', ',')}%` : '—';
+            }
+            if (panjangValEl) panjangValEl.textContent = rCard.panjang.toFixed(2).replace('.', ',');
+            if (metricLblEl) {
+                metricLblEl.textContent = year === 2025 ? 'Total Panjang Jalan Tertangani' : 'Total Panjang Jalan';
+            }
+            
+            // Dynamic card theme & highlighting based on the presence of realisasi
+            const cardEl = document.getElementById(`card-jalan-${year}`);
+            if (cardEl) {
+                if (rCard.realisasi !== null) {
+                    cardEl.classList.remove('theme-blue');
+                    cardEl.classList.add('theme-green');
+                    
+                    if (rencanaValEl) rencanaValEl.classList.remove('highlight');
+                    if (realisasiValEl) realisasiValEl.classList.add('highlight');
+                } else {
+                    cardEl.classList.remove('theme-green');
+                    cardEl.classList.add('theme-blue');
+                    
+                    if (realisasiValEl) realisasiValEl.classList.remove('highlight');
+                    if (rencanaValEl) rencanaValEl.classList.add('highlight');
+                }
+            }
+            // Circular Progress Gauge animation & values
+            if (gaugeProgressEl && gaugePctEl && gaugeLblEl) {
+                if (rCard.realisasi !== null) {
+                    gaugePctEl.textContent = `${rCard.realisasi.toFixed(2).replace('.', ',')}%`;
+                    gaugeLblEl.textContent = 'Realisasi';
+                    gaugeProgressEl.style.strokeDasharray = `${rCard.realisasi} 100`;
+                } else {
+                    gaugePctEl.textContent = `${rCard.rencana.toFixed(2).replace('.', ',')}%`;
+                    gaugeLblEl.textContent = 'Rencana';
+                    gaugeProgressEl.style.strokeDasharray = `${rCard.rencana} 100`;
+                }
+            }
+
+            // Mobile progress bar fill
+            const mobileGaugeFillEl = document.getElementById(`mobile-gauge-fill-${year}`);
+            if (mobileGaugeFillEl) {
+                const percentage = rCard.realisasi !== null ? rCard.realisasi : rCard.rencana;
+                mobileGaugeFillEl.style.setProperty('--progress-pct', `${percentage}%`);
             }
         }
     }
@@ -914,16 +958,21 @@ function openCardEditModal(year) {
     rencanaInput.value = cardData.rencana;
     panjangInput.value = cardData.panjang;
     
-    if (year === 2025) {
+    // Show realisasi group for both 2025 and 2026, but only make it required for 2025
+    if (realisasiGroup) {
         realisasiGroup.style.display = '';
-        realisasiInput.setAttribute('required', 'true');
-        realisasiInput.value = cardData.realisasi !== null ? cardData.realisasi : '';
-        panjangLabel.textContent = 'Total Panjang Jalan Tertangani (Km)';
-    } else {
-        realisasiGroup.style.display = 'none';
-        realisasiInput.removeAttribute('required');
-        realisasiInput.value = '';
-        panjangLabel.textContent = 'Total Panjang Jalan (Km)';
+        if (realisasiInput) {
+            if (year === 2025) {
+                realisasiInput.setAttribute('required', 'true');
+            } else {
+                realisasiInput.removeAttribute('required');
+            }
+            realisasiInput.value = cardData.realisasi !== null ? cardData.realisasi : '';
+        }
+    }
+    
+    if (panjangLabel) {
+        panjangLabel.textContent = year === 2025 ? 'Total Panjang Jalan Tertangani (Km)' : 'Total Panjang Jalan (Km)';
     }
     
     overlay.classList.add('is-open');
@@ -958,7 +1007,7 @@ function saveCardModalData(e) {
     const panjang = parseFloat(panjangInput.value);
     let realisasi = null;
     
-    if (year === 2025) {
+    if (realisasiInput && realisasiInput.value.trim() !== '') {
         realisasi = parseFloat(realisasiInput.value);
     }
     
@@ -967,7 +1016,9 @@ function saveCardModalData(e) {
         return;
     }
     
-    if (isNaN(rencana) || isNaN(panjang) || (year === 2025 && isNaN(realisasi))) {
+    if (isNaN(rencana) || isNaN(panjang) || 
+        (year === 2025 && (realisasi === null || isNaN(realisasi))) || 
+        (year === 2026 && realisasi !== null && isNaN(realisasi))) {
         alert('Mohon masukkan nilai angka yang valid.');
         return;
     }

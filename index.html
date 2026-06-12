@@ -111,46 +111,52 @@
 
                 <!-- ZONA A: SUMMARY METRICS -->
                 <section class="summary-grid" aria-label="Dashboard Summary TA 2026">
-
                     <!-- Card 1: Tahun 2025 -->
                     <div class="summary-card reveal" id="card-jalan-2025">
                         <button class="card-edit-btn col-act" onclick="openCardEditModal(2025)" title="Edit Data Summary 2025">
                             <i class="fa-solid fa-pen"></i>
                         </button>
-                        <div style="position: relative; z-index: 2;">
+                        <div class="summary-card-header">
                             <div class="card-title" id="card-2025-title">Tahun Anggaran 2025</div>
-                            <div class="card-value info" id="card-2025-subtitle" style="font-size: 1.1rem; text-transform: none; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: normal;">
-                                Kemantapan Jalan Provinsi Kaltim
-                            </div>
-                            <ul class="stats-list">
-                                <li class="stats-item">
-                                    <span class="stats-label">Rencana:</span>
-                                    <span class="stats-value" id="card-2025-rencana">85,70%</span>
-                                </li>
-                                <li class="stats-item">
-                                    <span class="stats-label">Realisasi:</span>
-                                    <span class="stats-value success" id="card-2025-realisasi">85,83%</span>
-                                </li>
-                                <li class="stats-item">
-                                    <span class="stats-label">Total Panjang Jalan Tertangani:</span>
-                                    <span class="stats-value warning" id="card-2025-panjang">805,77 Km</span>
-                                </li>
-                            </ul>
+                            <div class="card-subtitle" id="card-2025-subtitle">Kemantapan Jalan Provinsi Kaltim</div>
                         </div>
-                        <div class="summary-card-chart-wrapper">
-                            <svg viewBox="0 0 100 40" class="summary-sparkline">
-                                <defs>
-                                    <linearGradient id="sparkline-grad-2025" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stop-color="var(--accent-cyan)" stop-opacity="0.18" />
-                                        <stop offset="100%" stop-color="var(--accent-cyan)" stop-opacity="0.0" />
-                                    </linearGradient>
-                                    <filter id="glow-2025" x="-10%" y="-10%" width="120%" height="120%">
-                                        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="var(--accent-cyan)" flood-opacity="0.4"/>
-                                    </filter>
-                                </defs>
-                                <path d="M 0 35 C 20 20, 40 30, 60 15 C 80 5, 90 12, 100 8 L 100 40 L 0 40 Z" fill="url(#sparkline-grad-2025)" />
-                                <path d="M 0 35 C 20 20, 40 30, 60 15 C 80 5, 90 12, 100 8" fill="none" stroke="var(--accent-cyan)" stroke-width="2" stroke-linecap="round" filter="url(#glow-2025)" />
-                            </svg>
+                        <div class="summary-card-body">
+                            <!-- Mobile Horizontal Progress Bar (shown only on mobile) -->
+                            <div class="mobile-gauge-bar">
+                                <div class="mobile-gauge-fill" id="mobile-gauge-fill-2025"></div>
+                            </div>
+                            <!-- Left: Circular Progress Gauge -->
+                            <div class="gauge-container">
+                                <svg viewBox="0 0 36 36" class="gauge-svg">
+                                    <circle class="gauge-track" cx="18" cy="18" r="15.915" />
+                                    <circle class="gauge-progress" id="gauge-progress-2025" cx="18" cy="18" r="15.915" stroke-dasharray="85.83 100" />
+                                </svg>
+                                <div class="gauge-text">
+                                    <span class="gauge-percentage" id="gauge-pct-2025">85,83%</span>
+                                    <span class="gauge-label" id="gauge-lbl-2025">Realisasi</span>
+                                </div>
+                            </div>
+                            <!-- Right: Detailed Info List & Summary Metric Box -->
+                            <div class="card-details-wrapper">
+                                <div class="card-detail-row">
+                                    <span class="detail-label">Rencana:</span>
+                                    <span class="detail-value" id="card-2025-rencana-val">85,70%</span>
+                                </div>
+                                <div class="card-detail-row">
+                                    <span class="detail-label">Realisasi:</span>
+                                    <span class="detail-value highlight" id="card-2025-realisasi-val">85,83%</span>
+                                </div>
+                                <div class="card-metric-box">
+                                    <span class="metric-label" id="card-2025-metric-lbl">Total Panjang Jalan Tertangani</span>
+                                    <div class="metric-value">
+                                        <span id="card-2025-panjang-val">805,77</span><span class="metric-unit">Km</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="summary-card-footer">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Data Diverifikasi Oleh Sistem Dept Infrastruktur</span>
                         </div>
                     </div>
 
@@ -159,39 +165,49 @@
                         <button class="card-edit-btn col-act" onclick="openCardEditModal(2026)" title="Edit Data Summary 2026">
                             <i class="fa-solid fa-pen"></i>
                         </button>
-                        <div style="position: relative; z-index: 2;">
+                        <div class="summary-card-header">
                             <div class="card-title" id="card-2026-title">Tahun Anggaran 2026</div>
-                            <div class="card-value info" id="card-2026-subtitle" style="font-size: 1.1rem; text-transform: none; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: normal;">
-                                Kemantapan Jalan Provinsi Kaltim
-                            </div>
-                            <ul class="stats-list">
-                                <li class="stats-item">
-                                    <span class="stats-label">Rencana:</span>
-                                    <span class="stats-value" id="card-2026-rencana">89,84%</span>
-                                </li>
-                                <li class="stats-item">
-                                    <span class="stats-label">Total Panjang Jalan:</span>
-                                    <span class="stats-value warning" id="card-2026-panjang">843,46 Km</span>
-                                </li>
-                            </ul>
+                            <div class="card-subtitle" id="card-2026-subtitle">Kemantapan Jalan Provinsi Kaltim</div>
                         </div>
-                        <div class="summary-card-chart-wrapper">
-                            <svg viewBox="0 0 100 40" class="summary-sparkline">
-                                <defs>
-                                    <linearGradient id="sparkline-grad-2026" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stop-color="var(--pupr-yellow)" stop-opacity="0.12" />
-                                        <stop offset="100%" stop-color="var(--pupr-yellow)" stop-opacity="0.0" />
-                                    </linearGradient>
-                                    <filter id="glow-2026" x="-10%" y="-10%" width="120%" height="120%">
-                                        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="var(--pupr-yellow)" flood-opacity="0.4"/>
-                                    </filter>
-                                </defs>
-                                <path d="M 0 38 C 20 32, 40 25, 60 28 C 80 15, 90 18, 100 10 L 100 40 L 0 40 Z" fill="url(#sparkline-grad-2026)" />
-                                <path d="M 0 38 C 20 32, 40 25, 60 28 C 80 15, 90 18, 100 10" fill="none" stroke="var(--pupr-yellow)" stroke-width="2" stroke-linecap="round" filter="url(#glow-2026)" />
-                            </svg>
+                        <div class="summary-card-body">
+                            <!-- Mobile Horizontal Progress Bar (shown only on mobile) -->
+                            <div class="mobile-gauge-bar">
+                                <div class="mobile-gauge-fill" id="mobile-gauge-fill-2026"></div>
+                            </div>
+                            <!-- Left: Circular Progress Gauge -->
+                            <div class="gauge-container">
+                                <svg viewBox="0 0 36 36" class="gauge-svg">
+                                    <circle class="gauge-track" cx="18" cy="18" r="15.915" />
+                                    <circle class="gauge-progress" id="gauge-progress-2026" cx="18" cy="18" r="15.915" stroke-dasharray="89.84 100" />
+                                </svg>
+                                <div class="gauge-text">
+                                    <span class="gauge-percentage" id="gauge-pct-2026">89,84%</span>
+                                    <span class="gauge-label" id="gauge-lbl-2026">Rencana</span>
+                                </div>
+                            </div>
+                            <!-- Right: Detailed Info List & Summary Metric Box -->
+                            <div class="card-details-wrapper">
+                                <div class="card-detail-row">
+                                    <span class="detail-label">Rencana:</span>
+                                    <span class="detail-value highlight" id="card-2026-rencana-val">89,84%</span>
+                                </div>
+                                <div class="card-detail-row">
+                                    <span class="detail-label">Realisasi:</span>
+                                    <span class="detail-value" id="card-2026-realisasi-val">—</span>
+                                </div>
+                                <div class="card-metric-box">
+                                    <span class="metric-label" id="card-2026-metric-lbl">Total Panjang Jalan</span>
+                                    <div class="metric-value">
+                                        <span id="card-2026-panjang-val">843,46</span><span class="metric-unit">Km</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="summary-card-footer">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Data Diverifikasi Oleh Sistem Dept Infrastruktur</span>
                         </div>
                     </div>
-
                 </section>
 
                 <!-- ZONA B: PORTAL INPUT GOOGLE FORM -->
@@ -505,6 +521,7 @@
         </footer>
 
     </div>
+
 
         <!-- ADMIN PASSWORD MODAL -->
         <div class="rekap-modal-overlay" id="admin-password-overlay" onclick="closeAdminPasswordModal(event)">
