@@ -1433,6 +1433,7 @@ function initNavbar() {
     function closeMobileMenu() {
         if (navMenu) navMenu.classList.remove('is-active');
         if (navBackdrop) navBackdrop.classList.remove('is-active');
+        if (headerEl) headerEl.classList.remove('mobile-nav-active');
     }
 
     // Open Mobile Menu
@@ -1441,6 +1442,7 @@ function initNavbar() {
             e.stopPropagation();
             navMenu.classList.add('is-active');
             if (navBackdrop) navBackdrop.classList.add('is-active');
+            if (headerEl) headerEl.classList.add('mobile-nav-active');
         });
     }
 

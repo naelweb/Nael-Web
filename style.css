@@ -1645,12 +1645,12 @@ body.admin-locked .card-edit-btn {
         transition: z-index 0s, padding 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    header:has(.nav-menu.is-active) {
+    header.mobile-nav-active {
         z-index: 9999;
     }
 
-    header:has(.nav-menu.is-active) .brand-wrapper,
-    header:has(.nav-menu.is-active) .menu-toggle {
+    header.mobile-nav-active .brand-wrapper,
+    header.mobile-nav-active .menu-toggle {
         opacity: 0.15;
         pointer-events: none;
         transition: opacity 0.35s ease;
