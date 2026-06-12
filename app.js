@@ -332,38 +332,7 @@ async function loadAllDbData() {
     }
 }
 
-function loadCardsDataFromLocalStorage() {
-    try {
-        const stored = localStorage.getItem(CARDS_STORAGE_KEY);
-        if (stored) {
-            const parsed = JSON.parse(stored);
-            for (const year of [2025, 2026]) {
-                if (parsed[year]) {
-                    if (parsed[year].title === undefined) parsed[year].title = CARDS_DEFAULT[year].title;
-                    if (parsed[year].subtitle === undefined) parsed[year].subtitle = CARDS_DEFAULT[year].subtitle;
-                }
-            }
-            return parsed;
-        }
-    } catch (e) {}
-    return JSON.parse(JSON.stringify(CARDS_DEFAULT));
-}
 
-function loadPortalDataFromLocalStorage() {
-    try {
-        const stored = localStorage.getItem(PORTALS_STORAGE_KEY);
-        if (stored) return JSON.parse(stored);
-    } catch (e) {}
-    return JSON.parse(JSON.stringify(PORTALS_DEFAULT));
-}
-
-function loadRekapDataFromLocalStorage() {
-    try {
-        const stored = localStorage.getItem(REKAP_STORAGE_KEY);
-        if (stored) return JSON.parse(stored);
-    } catch (e) {}
-    return [...REKAP_DEFAULT];
-}
 
 
 

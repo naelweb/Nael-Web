@@ -4,7 +4,8 @@
   "description": "Portal Integrasi Bidang Jalan & Jembatan - PUPR",
   "main": "app.js",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "build": "vite build"
   },
   "devDependencies": {
     "vite": "^5.2.11"
