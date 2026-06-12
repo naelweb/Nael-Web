@@ -1642,6 +1642,18 @@ body.admin-locked .card-edit-btn {
 @media (max-width: 768px) {
     header {
         padding: 1.25rem 1.25rem;
+        transition: z-index 0s, padding 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    header:has(.nav-menu.is-active) {
+        z-index: 9999;
+    }
+
+    header:has(.nav-menu.is-active) .brand-wrapper,
+    header:has(.nav-menu.is-active) .menu-toggle {
+        opacity: 0.15;
+        pointer-events: none;
+        transition: opacity 0.35s ease;
     }
 
     header.scrolled {
