@@ -270,12 +270,38 @@ header.scrolled .brand-logo-img {
     justify-content: space-between;
     min-height: 165px;
     position: relative;
+    overflow: hidden;
 }
 
 .summary-card:hover {
     transform: translateY(-5px) scale(1.01);
     border-color: var(--card-hover-border);
     box-shadow: var(--shadow-hover);
+}
+
+/* Sparkline Chart Pemanis */
+.summary-card-chart-wrapper {
+    position: absolute;
+    right: -2%;
+    bottom: -8px;
+    width: 45%;
+    height: 70px;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.65;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.summary-card:hover .summary-card-chart-wrapper {
+    opacity: 0.95;
+    transform: translateY(-2px);
+}
+
+.summary-sparkline {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
 }
 
 .card-title {

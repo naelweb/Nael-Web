@@ -117,7 +117,7 @@
                         <button class="card-edit-btn col-act" onclick="openCardEditModal(2025)" title="Edit Data Summary 2025">
                             <i class="fa-solid fa-pen"></i>
                         </button>
-                        <div>
+                        <div style="position: relative; z-index: 2;">
                             <div class="card-title" id="card-2025-title">Tahun Anggaran 2025</div>
                             <div class="card-value info" id="card-2025-subtitle" style="font-size: 1.1rem; text-transform: none; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: normal;">
                                 Kemantapan Jalan Provinsi Kaltim
@@ -137,6 +137,21 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="summary-card-chart-wrapper">
+                            <svg viewBox="0 0 100 40" class="summary-sparkline">
+                                <defs>
+                                    <linearGradient id="sparkline-grad-2025" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="var(--accent-cyan)" stop-opacity="0.18" />
+                                        <stop offset="100%" stop-color="var(--accent-cyan)" stop-opacity="0.0" />
+                                    </linearGradient>
+                                    <filter id="glow-2025" x="-10%" y="-10%" width="120%" height="120%">
+                                        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="var(--accent-cyan)" flood-opacity="0.4"/>
+                                    </filter>
+                                </defs>
+                                <path d="M 0 35 C 20 20, 40 30, 60 15 C 80 5, 90 12, 100 8 L 100 40 L 0 40 Z" fill="url(#sparkline-grad-2025)" />
+                                <path d="M 0 35 C 20 20, 40 30, 60 15 C 80 5, 90 12, 100 8" fill="none" stroke="var(--accent-cyan)" stroke-width="2" stroke-linecap="round" filter="url(#glow-2025)" />
+                            </svg>
+                        </div>
                     </div>
 
                     <!-- Card 2: Tahun 2026 -->
@@ -144,7 +159,7 @@
                         <button class="card-edit-btn col-act" onclick="openCardEditModal(2026)" title="Edit Data Summary 2026">
                             <i class="fa-solid fa-pen"></i>
                         </button>
-                        <div>
+                        <div style="position: relative; z-index: 2;">
                             <div class="card-title" id="card-2026-title">Tahun Anggaran 2026</div>
                             <div class="card-value info" id="card-2026-subtitle" style="font-size: 1.1rem; text-transform: none; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: normal;">
                                 Kemantapan Jalan Provinsi Kaltim
@@ -159,6 +174,21 @@
                                     <span class="stats-value warning" id="card-2026-panjang">843,46 Km</span>
                                 </li>
                             </ul>
+                        </div>
+                        <div class="summary-card-chart-wrapper">
+                            <svg viewBox="0 0 100 40" class="summary-sparkline">
+                                <defs>
+                                    <linearGradient id="sparkline-grad-2026" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="var(--pupr-yellow)" stop-opacity="0.12" />
+                                        <stop offset="100%" stop-color="var(--pupr-yellow)" stop-opacity="0.0" />
+                                    </linearGradient>
+                                    <filter id="glow-2026" x="-10%" y="-10%" width="120%" height="120%">
+                                        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="var(--pupr-yellow)" flood-opacity="0.4"/>
+                                    </filter>
+                                </defs>
+                                <path d="M 0 38 C 20 32, 40 25, 60 28 C 80 15, 90 18, 100 10 L 100 40 L 0 40 Z" fill="url(#sparkline-grad-2026)" />
+                                <path d="M 0 38 C 20 32, 40 25, 60 28 C 80 15, 90 18, 100 10" fill="none" stroke="var(--pupr-yellow)" stroke-width="2" stroke-linecap="round" filter="url(#glow-2026)" />
+                            </svg>
                         </div>
                     </div>
 
