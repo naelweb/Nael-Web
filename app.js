@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize Scroll Reveal Animations
     initScrollReveal();
 
-    // Loading screen outro transition timing (completes in 2.6s)
+    // Loading screen outro transition timing (completes in 1.6s)
     setTimeout(() => {
         const loadingScreen = document.getElementById('loading-screen');
         if (loadingScreen) {
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         // Trigger layout resize to recalculate sizes if needed
         window.dispatchEvent(new Event('resize'));
-    }, 2600);
+    }, 1600);
 });
 
 async function loadAllDbData() {

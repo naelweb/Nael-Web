@@ -1815,9 +1815,9 @@ body.admin-locked .gallery-title-edit-btn {
     justify-content: center;
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                visibility 0.8s;
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.5s;
 }
 
 /* Premium fade-out and scale-up transition */
@@ -1881,8 +1881,8 @@ body.loading {
     clip-path: inset(0 100% 0 0);
     filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25))
             drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
-    animation: fillLogo 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    animation-delay: 0.3s;
+    animation: fillLogo 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 0.2s;
 }
 
 /* Left-to-right clip-path reveal keyframe */
@@ -1932,8 +1932,8 @@ body.loading {
     background: #ffffff;
     border-radius: 999px;
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-    animation: fillProgress 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    animation-delay: 0.3s;
+    animation: fillProgress 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 0.2s;
 }
 
 @keyframes fillProgress {
@@ -1961,8 +1961,8 @@ body.loading {
 .container {
     opacity: 0;
     transform: translateY(12px) scale(0.995);
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body.loaded .container {
