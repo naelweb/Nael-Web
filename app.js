@@ -1329,15 +1329,50 @@ function initNavbar() {
     let isScrollingFromMenu = false;
     let scrollTimeout = null;
 
-    // Sticky Scroll Effect
-    if (headerEl) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 40) {
-                headerEl.classList.add('scrolled');
-            } else {
-                headerEl.classList.remove('scrolled');
+    // Cache absolute top coordinates to prevent layout thrashing (getBoundingClientRect) on scroll
+    const cachedSectionPositions = {
+        home: 0,
+        'data-hub': 0,
+        'projects': 0,
+        'gallery': 0
+    };
+
+    function recalculateSectionPositions() {
+        const scrollPos = window.scrollY || document.documentElement.scrollTop;
+        ['home', 'data-hub', 'projects', 'gallery'].forEach(id => {
+            if (id === 'home') {
+                cachedSectionPositions[id] = 0;
+                return;
+            }
+            const el = document.getElementById(id);
+            if (el) {
+                cachedSectionPositions[id] = el.getBoundingClientRect().top + scrollPos;
             }
         });
+    }
+
+    // Initialize position cache and listen for resizing/loading updates
+    recalculateSectionPositions();
+    window.addEventListener('load', recalculateSectionPositions, { passive: true });
+    window.addEventListener('resize', recalculateSectionPositions, { passive: true });
+    // Recalculate after page content settles (Supabase fetching shifts layout elements)
+    setTimeout(recalculateSectionPositions, 1200);
+    setTimeout(recalculateSectionPositions, 2800);
+
+    // Sticky Scroll Effect with state check to avoid redundant classList calls
+    if (headerEl) {
+        let isScrolled = false;
+        window.addEventListener('scroll', () => {
+            const shouldScroll = window.scrollY > 40;
+            if (shouldScroll !== isScrolled) {
+                isScrolled = shouldScroll;
+                if (isScrolled) {
+                    headerEl.classList.add('scrolled');
+                } else {
+                    headerEl.classList.remove('scrolled');
+                }
+            }
+        }, { passive: true });
     }
 
     // Toggle Mobile Menu
@@ -1402,31 +1437,21 @@ function initNavbar() {
         const headerHeight = headerEl ? headerEl.offsetHeight : 100;
         const offset = headerHeight + 50; // trigger point: header height + 50px buffer
 
-        // Helper to calculate absolute top position of an element by ID
-        const getAbsoluteTop = (id) => {
-            const el = document.getElementById(id);
-            if (!el) return 0;
-            if (id === 'home') return 0; // Home is always at the very top of the page (0px)
-            return el.getBoundingClientRect().top + scrollPos;
-        };
-
-        const positions = {
-            home: 0,
-            'data-hub': getAbsoluteTop('data-hub'),
-            'projects': getAbsoluteTop('projects'),
-            'gallery': getAbsoluteTop('gallery')
-        };
+        // Fallback check: if positions aren't computed, run it
+        if (cachedSectionPositions['data-hub'] === 0) {
+            recalculateSectionPositions();
+        }
 
         let currentActiveId = 'home';
 
         // Check scroll position against ranges from bottom to top
         if (scrollPos + viewportHeight >= scrollHeight - 80) {
             currentActiveId = 'gallery';
-        } else if (scrollPos >= positions['gallery'] - offset) {
+        } else if (scrollPos >= cachedSectionPositions['gallery'] - offset) {
             currentActiveId = 'gallery';
-        } else if (scrollPos >= positions['projects'] - offset) {
+        } else if (scrollPos >= cachedSectionPositions['projects'] - offset) {
             currentActiveId = 'projects';
-        } else if (scrollPos >= positions['data-hub'] - offset) {
+        } else if (scrollPos >= cachedSectionPositions['data-hub'] - offset) {
             currentActiveId = 'data-hub';
         } else {
             currentActiveId = 'home';
@@ -1447,7 +1472,7 @@ function initNavbar() {
         if (!isScrollingFromMenu) {
             updateScrollSpy();
         }
-    });
+    }, { passive: true });
     updateScrollSpy();
 
     // Admin Lock Mode Toggle Feature

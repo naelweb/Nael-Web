@@ -129,7 +129,14 @@ header {
     top: 0;
     background-color: transparent;
     z-index: 1000;
-    transition: var(--transition);
+    transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                backdrop-filter 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                -webkit-backdrop-filter 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                padding 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-bottom-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-radius 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: padding, background-color, backdrop-filter, box-shadow;
 }
 
 header.scrolled {
@@ -153,7 +160,8 @@ header.scrolled {
     width: auto;
     display: block;
     margin-left: 0;
-    transition: var(--transition);
+    transition: height 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: height;
 }
 
 header.scrolled .brand-logo-img {
@@ -1253,14 +1261,14 @@ body.admin-locked .card-edit-btn {
     gap: 0.5rem;
     padding: 0.5rem 1rem;
     border-radius: 9999px;
-    transition: var(--transition);
+    transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
 }
 
 .nav-link i {
     font-size: 0.9rem;
     color: var(--text-muted);
-    transition: var(--transition);
+    transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav-link:hover {
@@ -1363,7 +1371,7 @@ body.admin-locked .card-edit-btn {
     }
 
     .nav-menu {
-        display: none;
+        display: flex;
         flex-direction: column;
         position: absolute;
         top: 100%;
@@ -1378,11 +1386,23 @@ body.admin-locked .card-edit-btn {
         align-items: flex-start;
         box-shadow: var(--shadow-hover);
         z-index: 999;
+        
+        /* Smooth hardware-accelerated slide & fade transitions */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    visibility 0.25s;
+        pointer-events: none;
+        will-change: opacity, transform;
     }
 
     .nav-menu.is-active {
-        display: flex;
-        animation: navSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
     }
 
     .nav-link {
