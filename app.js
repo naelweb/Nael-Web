@@ -1746,5 +1746,31 @@ async function saveSettingToSupabase(key, value) {
     }
 }
 
+// ─── Expose functions to window for HTML inline event handlers (Vite ES Module scoping) ───
+window.openCardEditModal = openCardEditModal;
+window.closeCardModal = closeCardModal;
+window.closeCardModalDirect = closeCardModalDirect;
+window.saveCardModalData = saveCardModalData;
+window.startInlineEditGalleryTitle = startInlineEditGalleryTitle;
+window.startInlineEditFieldDocTitle = startInlineEditFieldDocTitle;
+window.openAddModal = openAddModal;
+window.closeModal = closeModal;
+window.closeModalDirect = closeModalDirect;
+window.saveModalData = saveModalData;
+window.showYearDetails = showYearDetails;
+window.closeDetailModal = closeDetailModal;
+window.closeDetailModalDirect = closeDetailModalDirect;
+window.openEditModal = openEditModal;
+window.deleteRekapRow = deleteRekapRow;
+window.closeAdminPasswordModal = closeAdminPasswordModal;
+window.closeAdminPasswordModalDirect = closeAdminPasswordModalDirect;
+window.submitAdminPassword = submitAdminPassword;
+window.openPortalEditModal = openPortalEditModal;
+window.deletePortalButton = deletePortalButton;
+window.openPortalAddModal = openPortalAddModal;
+window.closePortalModal = closePortalModal;
+window.closePortalModalDirect = closePortalModalDirect;
+window.savePortalModalData = savePortalModalData;
+
 
 
