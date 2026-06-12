@@ -1,0 +1,15 @@
+{
+  "name": "web-binamarga-aco",
+  "version": "1.0.0",
+  "description": "Portal Integrasi Bidang Jalan & Jembatan - PUPR",
+  "main": "app.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "vite": "^5.2.11"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.108.1"
+  }
+}

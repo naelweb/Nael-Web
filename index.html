@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Integrasi Bidang Jalan & Jembatan - PUPR</title>
+    <!-- Geist & Geist Mono Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Fancybox CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+</head>
+
+<body class="loading">
+
+    <!-- START LOADING SCREEN -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-container">
+            <div class="logo-wrapper">
+                <svg id="loading-logo-svg" viewBox="0 0 905.35 187.79" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Glow Gradient for Foreground Reveal -->
+                        <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#6366f1" />
+                            <stop offset="100%" stop-color="#8cff2e" />
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Silhouette (Background Layer) -->
+                    <g class="logo-bg-layer">
+                        <polygon points="89.07 171.55 50.33 187.79 50.27 82.89 91.37 65.41 148.39 116.81 148.44 45.22 195.87 25.28 195.9 139.88 146.17 160.82 89.26 109 89.07 171.55"/>
+                        <polygon points="46.52 187.1 0 164.67 0 60.97 46.56 82.99 46.52 187.1"/>
+                        <polygon points="192.8 23.04 145.95 42.88 97.96 19.86 144.7 0 192.8 23.04"/>
+                        <polygon points="48.39 80.33 2.82 58.81 43.45 41.56 88.53 63.23 48.39 80.33"/>
+                        <path d="M406.86,25.47v114.04h-56.19l-54.58-56.21v56.21h-56.19V25.47h56.35l54.42,56.05V25.47h56.19Z"/>
+                        <path d="M530.95,125.17h-59.56l-6.74,14.34h-59.4l53.3-114.04h85.25l53.3,114.04h-59.4l-6.74-14.34h-.01ZM516.18,93.4l-14.93-32.1-15.09,32.1h30.02Z"/>
+                        <path d="M661.44,57.23v8.8h86.21v31.76h-86.21v9.93h87.97v31.76h-152.51V25.47h152.51v31.76h-87.97Z"/>
+                        <path d="M905.31,97.14v42.36h-144.48V25.47h63.73v71.68h80.75Z"/>
+                    </g>
+                    
+                    <!-- Colored Fill Layer (Foreground Reveal Layer) -->
+                    <g class="logo-fg-layer">
+                        <polygon points="89.07 171.55 50.33 187.79 50.27 82.89 91.37 65.41 148.39 116.81 148.44 45.22 195.87 25.28 195.9 139.88 146.17 160.82 89.26 109 89.07 171.55"/>
+                        <polygon points="46.52 187.1 0 164.67 0 60.97 46.56 82.99 46.52 187.1"/>
+                        <polygon points="192.8 23.04 145.95 42.88 97.96 19.86 144.7 0 192.8 23.04"/>
+                        <polygon points="48.39 80.33 2.82 58.81 43.45 41.56 88.53 63.23 48.39 80.33"/>
+                        <path d="M406.86,25.47v114.04h-56.19l-54.58-56.21v56.21h-56.19V25.47h56.35l54.42,56.05V25.47h56.19Z"/>
+                        <path d="M530.95,125.17h-59.56l-6.74,14.34h-59.4l53.3-114.04h85.25l53.3,114.04h-59.4l-6.74-14.34h-.01ZM516.18,93.4l-14.93-32.1-15.09,32.1h30.02Z"/>
+                        <path d="M661.44,57.23v8.8h86.21v31.76h-86.21v9.93h87.97v31.76h-152.51V25.47h152.51v31.76h-87.97Z"/>
+                        <path d="M905.31,97.14v42.36h-144.48V25.47h63.73v71.68h80.75Z"/>
+                    </g>
+                </svg>
+            </div>
+            
+            <div class="loading-status">MEMUAT PORTAL INTEGRASI DATA</div>
+            
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END LOADING SCREEN -->
+
+    <div class="container">
+
+        <!-- HEADER SECTION -->
+        <header id="home">
+            <div class="brand-wrapper">
+                <img src="src/logo-01.svg" alt="NAEL" class="brand-logo-img">
+            </div>
+            <!-- NAVIGATION BAR (INLINE) -->
+            <nav class="navbar" aria-label="Navigasi Utama">
+                <button class="menu-toggle" id="menu-toggle" aria-label="Buka Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#home" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li><a href="#data-hub" class="nav-link"><i class="fa-solid fa-database"></i> Data Hub</a></li>
+                    <li><a href="#projects" class="nav-link"><i class="fa-solid fa-road"></i> Projects</a></li>
+                    <li><a href="#gallery" class="nav-link"><i class="fa-solid fa-images"></i> Gallery</a></li>
+                    <li class="admin-menu-item">
+                        <button id="admin-lock-btn" class="admin-lock-btn" title="Mode Admin Terkunci">
+                            <i class="fa-solid fa-lock"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- RUNNING TEXT ANNOUNCEMENT TICKER -->
+        <div class="ticker-container" aria-label="Pengumuman Terbaru">
+            <span class="ticker-badge">Pengumuman</span>
+            <div class="ticker-track">
+                <div class="ticker-text">
+                    📢 Reminder: mohon update laporan setiap tanggal 15 dan 30 setiap bulan. Untuk kegiatan yang sudah berkontrak, agar langsung di-update pada database. Terima kasih.
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN LAYOUT GRID (2 COLUMNS) -->
+        <div class="dashboard-grid">
+
+            <!-- COLUMN LEFT: SUMMARY & PORTALS -->
+            <div class="main-column">
+
+                <!-- ZONA A: SUMMARY METRICS -->
+                <section class="summary-grid" aria-label="Dashboard Summary TA 2026">
+
+                    <!-- Card 1: Tahun 2025 -->
+                    <div class="summary-card reveal" id="card-jalan-2025">
+                        <button class="card-edit-btn col-act" onclick="openCardEditModal(2025)" title="Edit Data Summary 2025">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <div>
+                            <div class="card-title" id="card-2025-title">Tahun Anggaran 2025</div>
+                            <div class="card-value info" id="card-2025-subtitle" style="font-size: 1.1rem; text-transform: none; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: normal;">
+                                Kemantapan Jalan Provinsi Kaltim
+                            </div>
+                            <ul class="stats-list">
+                                <li class="stats-item">
+                                    <span class="stats-label">Rencana:</span>
+                                    <span class="stats-value" id="card-2025-rencana">85,70%</span>
+                                </li>
+                                <li class="stats-item">
+                                    <span class="stats-label">Realisasi:</span>
+                                    <span class="stats-value success" id="card-2025-realisasi">85,83%</span>
+                                </li>
+                                <li class="stats-item">
+                                    <span class="stats-label">Total Panjang Jalan Tertangani:</span>
+                                    <span class="stats-value warning" id="card-2025-panjang">805,77 Km</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Tahun 2026 -->
+                    <div class="summary-card reveal" id="card-jalan-2026">
+                        <button class="card-edit-btn col-act" onclick="openCardEditModal(2026)" title="Edit Data Summary 2026">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <div>
+                            <div class="card-title" id="card-2026-title">Tahun Anggaran 2026</div>
+                            <div class="card-value info" id="card-2026-subtitle" style="font-size: 1.1rem; text-transform: none; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: normal;">
+                                Kemantapan Jalan Provinsi Kaltim
+                            </div>
+                            <ul class="stats-list">
+                                <li class="stats-item">
+                                    <span class="stats-label">Rencana:</span>
+                                    <span class="stats-value" id="card-2026-rencana">89,84%</span>
+                                </li>
+                                <li class="stats-item">
+                                    <span class="stats-label">Total Panjang Jalan:</span>
+                                    <span class="stats-value warning" id="card-2026-panjang">843,46 Km</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- ZONA B: PORTAL INPUT GOOGLE FORM -->
+                <section class="portal-section reveal" id="data-hub" aria-label="Portal Input Data Google Form">
+                    <h2 class="section-title">
+                        <i class="fa-solid fa-file-signature"></i>
+                        Portal Input Data Google Form
+                    </h2>
+                    <div id="portal-groups-container">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- COLUMN RIGHT: SIDEBAR (STATS, KABID, COMPLAINT) -->
+            <aside class="sidebar-column">
+
+                <!-- Card 1: Stats Database (Dokumentasi Kegiatan 2025) -->
+                <div class="sidebar-card reveal">
+                    <h3 class="sidebar-card-title">
+                        <i class="fa-solid fa-images"></i>
+                        <span id="sidebar-gallery-title-text">Dokumentasi Kegiatan 2025</span>
+                        <button class="gallery-title-edit-btn col-act" onclick="startInlineEditGalleryTitle()" title="Edit Judul Galeri">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </h3>
+                    <div class="sidebar-gallery">
+                        <div class="sidebar-gallery-item" data-fancybox="gallery-2025" data-src="https://images.pexels.com/photos/11701519/pexels-photo-11701519.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Jembatan Mahakam">
+                            <img src="https://images.pexels.com/photos/11701519/pexels-photo-11701519.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Jembatan Mahakam">
+                            <div class="sidebar-gallery-info">
+                                <span class="sidebar-gallery-title">Jembatan Mahakam</span>
+                            </div>
+                        </div>
+                        <div class="sidebar-gallery-item" data-fancybox="gallery-2025" data-src="https://images.pexels.com/photos/4575148/pexels-photo-4575148.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Pelebaran Lintas Kutai">
+                            <img src="https://images.pexels.com/photos/4575148/pexels-photo-4575148.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Pelebaran Lintas Lintas Kutai">
+                            <div class="sidebar-gallery-info">
+                                <span class="sidebar-gallery-title">Pelebaran Lintas Kutai</span>
+                            </div>
+                        </div>
+                        <div class="sidebar-gallery-item" data-fancybox="gallery-2025" data-src="https://www.jiashangpipe.com/wp-content/uploads/2024/05/%E5%8D%B0%E5%B0%BC%E7%85%A4%E7%9F%BF.jpg" data-caption="Sistem Drainase">
+                            <img src="https://www.jiashangpipe.com/wp-content/uploads/2024/05/%E5%8D%B0%E5%B0%BC%E7%85%A4%E7%9F%BF.jpg" alt="Pekerjaan Drainase">
+                            <div class="sidebar-gallery-info">
+                                <span class="sidebar-gallery-title">Sistem Drainase</span>
+                            </div>
+                        </div>
+                        <div class="sidebar-gallery-item" data-fancybox="gallery-2025" data-src="https://images.pexels.com/photos/2209529/pexels-photo-2209529.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Survei Lapangan">
+                            <img src="https://images.pexels.com/photos/2209529/pexels-photo-2209529.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Survei Lapangan">
+                            <div class="sidebar-gallery-info">
+                                <span class="sidebar-gallery-title">Survei Lapangan</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Insight Infrastruktur -->
+                <div class="sidebar-card reveal" id="insight">
+                    <h3 class="sidebar-card-title">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        Insight Infrastruktur Kaltim
+                    </h3>
+                    <ul class="stats-list" style="margin-top: 0.5rem;">
+                        <li class="stats-item" style="flex-direction: column; align-items: flex-start; gap: 0.25rem;">
+                            <span class="stats-label" style="color: var(--accent-cyan); font-weight: 700; font-size: 0.8rem;">Rasio Kemantapan Jalan</span>
+                            <span style="font-size: 0.75rem; line-height: 1.4;">Tingkat kemantapan koridor jalan provinsi Kalimantan Timur saat ini mencapai <strong>85,83%</strong>.</span>
+                        </li>
+                        <li class="stats-item" style="flex-direction: column; align-items: flex-start; gap: 0.25rem;">
+                            <span class="stats-label" style="color: var(--pupr-yellow); font-weight: 700; font-size: 0.8rem;">Konektivitas IKN</span>
+                            <span style="font-size: 0.75rem; line-height: 1.4;">Pembangunan & pelebaran akses logistik terus diprioritaskan guna mendukung integrasi kawasan IKN Nusantara.</span>
+                        </li>
+                        <li class="stats-item" style="flex-direction: column; align-items: flex-start; gap: 0.25rem;">
+                            <span class="stats-label" style="color: var(--success); font-weight: 700; font-size: 0.8rem;">Jembatan Penghubung</span>
+                            <span style="font-size: 0.75rem; line-height: 1.4;">Dinas PU mengelola lebih dari <strong>2.400 meter</strong> total bentang jembatan yang tersebar di wilayah Kaltim.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Card 3: Dokumentasi Lapangan -->
+                <div class="sidebar-card reveal" id="field-doc">
+                    <h3 class="sidebar-card-title">
+                        <i class="fa-solid fa-camera"></i>
+                        <span id="sidebar-field-doc-title-text">Dokumentasi Lapangan</span>
+                        <button class="gallery-title-edit-btn col-act" onclick="startInlineEditFieldDocTitle()" title="Edit Judul Galeri">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </h3>
+                    <div class="sidebar-gallery">
+                        <div class="sidebar-gallery-item" data-fancybox="gallery-lapangan" data-src="https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Pelebaran Lintas Bontang">
+                            <img src="https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Pelebaran Jalan Bontang">
+                            <div class="sidebar-gallery-info">
+                                <span class="sidebar-gallery-title">Pelebaran Lintas Bontang</span>
+                            </div>
+                        </div>
+                        <div class="sidebar-gallery-item" data-fancybox="gallery-lapangan" data-src="https://images.pexels.com/photos/93400/pexels-photo-93400.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Survei Jembatan Kutai">
+                            <img src="https://images.pexels.com/photos/93400/pexels-photo-93400.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Survei Jembatan Kutai">
+                            <div class="sidebar-gallery-info">
+                                <span class="sidebar-gallery-title">Survei Jembatan Kutai</span>
+                            </div>
+                        </div>
+                        <div class="sidebar-gallery-item" data-fancybox="gallery-lapangan" data-src="https://images.pexels.com/photos/159306/construction-site-build-construction-work-159306.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Pengaspalan Samarinda">
+                            <img src="https://images.pexels.com/photos/159306/construction-site-build-construction-work-159306.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Pengaspalan Lintas Samarinda">
+                            <div class="sidebar-gallery-info">
+                                <span class="sidebar-gallery-title">Pengaspalan Samarinda</span>
+                            </div>
+                        </div>
+                        <div class="sidebar-gallery-item" data-fancybox="gallery-lapangan" data-src="https://images.pexels.com/photos/3856027/pexels-photo-3856027.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Inspeksi Lintas Lereng">
+                            <img src="https://images.pexels.com/photos/3856027/pexels-photo-3856027.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Inspeksi Jalur Lereng">
+                            <div class="sidebar-gallery-info">
+                                <span class="sidebar-gallery-title">Inspeksi Lintas Lereng</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+
+        <!-- REKAPITULASI SECTION -->
+        <section class="rekap-section reveal" id="projects" aria-label="Rekapitulasi Pagu, Realisasi Keuangan, dan Fisik">
+            <div class="rekap-header">
+                <h2 class="section-title" style="border-bottom: none; padding-bottom: 0;">
+                    <i class="fa-solid fa-table-columns"></i>
+                    Rekapitulasi Pagu &amp; Realisasi
+                </h2>
+                <div class="rekap-actions">
+                    <button class="rekap-add-btn" id="btn-add-year" onclick="openAddModal()">
+                        <i class="fa-solid fa-plus"></i>
+                        Tambah Tahun
+                    </button>
+                </div>
+            </div>
+            <div class="rekap-legend">
+                <div class="legend-item">
+                    <span class="legend-dot dot-green"></span>
+                    <span>Serapan ≥ 95%</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot dot-yellow"></span>
+                    <span>Serapan 80–94%</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot dot-red"></span>
+                    <span>Serapan &lt; 80%</span>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="rekap-table-wrap">
+                <table class="rekap-table" id="rekap-table">
+                    <thead>
+                        <tr>
+                            <th class="col-tahun">Tahun</th>
+                            <th class="col-pagu">Nilai Pagu</th>
+                            <th class="col-keu">Realisasi Keuangan</th>
+                            <th class="col-pct">% Serapan</th>
+                            <th class="col-fisik">Realisasi Fisik</th>
+                            <th class="col-act">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rekap-tbody">
+                        <!-- Rows generated by JS -->
+                    </tbody>
+                    <tfoot id="rekap-tfoot">
+                        <!-- Summary row generated by JS -->
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <!-- EDIT MODAL -->
+        <div class="rekap-modal-overlay" id="rekap-modal-overlay" onclick="closeModal(event)">
+            <div class="rekap-modal" id="rekap-modal">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modal-title">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Edit Data
+                    </h3>
+                    <button class="modal-close-btn" onclick="closeModalDirect()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form class="modal-form" id="modal-form" onsubmit="saveModalData(event)">
+                    <input type="hidden" id="modal-edit-index">
+                    <div class="modal-form-grid">
+                        <div class="modal-form-group full-width">
+                            <label class="modal-label" for="modal-tahun">Tahun Anggaran</label>
+                            <input class="modal-input" type="number" id="modal-tahun" placeholder="Contoh: 2026" min="2000" max="2100" required>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="modal-pagu">Nilai Pagu (Rp)</label>
+                            <input class="modal-input" type="number" id="modal-pagu" placeholder="Contoh: 619499939397" min="0" required>
+                            <span class="modal-input-preview" id="prev-pagu">—</span>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="modal-keuangan">Realisasi Keuangan (Rp)</label>
+                            <input class="modal-input" type="number" id="modal-keuangan" placeholder="Contoh: 411991184257" min="0" required>
+                            <span class="modal-input-preview" id="prev-keuangan">—</span>
+                        </div>
+                        <div class="modal-form-group full-width">
+                            <label class="modal-label" for="modal-fisik">Realisasi Fisik (%)</label>
+                            <input class="modal-input" type="number" id="modal-fisik" placeholder="Contoh: 99.98" min="0" max="100" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="modal-cancel-btn" onclick="closeModalDirect()">Batal</button>
+                        <button type="submit" class="modal-save-btn">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Simpan Data
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- DETAIL MODAL -->
+        <div class="rekap-modal-overlay" id="detail-modal-overlay" onclick="closeDetailModal(event)">
+            <div class="rekap-modal" style="max-width: 750px;">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="detail-modal-title">
+                        <i class="fa-solid fa-circle-info"></i>
+                        Rincian Sub Kegiatan
+                    </h3>
+                    <button class="modal-close-btn" onclick="closeDetailModalDirect()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div style="padding: 1.25rem 1.5rem; max-height: 400px; overflow-y: auto;">
+                    <table class="rekap-table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left; background-color: var(--card-border);">Nama Sub Kegiatan</th>
+                                <th style="text-align: right; background-color: var(--card-border);">Nilai Pagu</th>
+                                <th style="text-align: right; background-color: var(--card-border);">Realisasi Keuangan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detail-modal-tbody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISUAL NEWS / GALLERY SECTION -->
+        <section class="gallery-section reveal" id="gallery" aria-label="Galeri Kegiatan Bidang Jalan Jembatan">
+            <h2 class="section-title">
+                <i class="fa-solid fa-images"></i>
+                Dokumentasi & Berita Kegiatan
+            </h2>
+            <div class="gallery-grid">
+
+                <!-- Berita 1 -->
+                <div class="gallery-card reveal" data-fancybox="gallery-main" data-src="https://images.pexels.com/photos/11701519/pexels-photo-11701519.jpeg?auto=compress&cs=tinysrgb&w=1200" data-caption="Progres Jembatan Sungai Besar Capai 65%: Pembangunan fisik jembatan penghubung utama sepanjang 120 meter terus berjalan di lapangan sesuai rencana kerja.">
+                    <div class="gallery-image-wrapper">
+                        <img class="gallery-image"
+                            src="https://images.pexels.com/photos/11701519/pexels-photo-11701519.jpeg?auto=compress&cs=tinysrgb&w=800"
+                            alt="Konstruksi Jembatan">
+                        <span class="gallery-badge">Konstruksi</span>
+                    </div>
+                    <div class="gallery-body">
+                        <h3 class="gallery-card-title">Progres Jembatan Sungai Besar Capai 65%</h3>
+                        <p class="gallery-card-desc">Pembangunan fisik jembatan penghubung utama sepanjang 120 meter
+                            terus berjalan di lapangan sesuai rencana kerja.</p>
+                    </div>
+                </div>
+
+                <!-- Berita 2 -->
+                <div class="gallery-card reveal" data-fancybox="gallery-main" data-src="https://images.pexels.com/photos/4575148/pexels-photo-4575148.jpeg?auto=compress&cs=tinysrgb&w=1200" data-caption="Peningkatan Jalan Lintas Kabupaten Dimulai: Proyek peningkatan mutu struktur jalan aspal sepanjang 22 kilometer resmi dimulai guna mendukung kelancaran distribusi logistik.">
+                    <div class="gallery-image-wrapper">
+                        <img class="gallery-image"
+                            src="https://images.pexels.com/photos/4575148/pexels-photo-4575148.jpeg?auto=compress&cs=tinysrgb&w=800"
+                            alt="Pekerjaan Pengaspalan">
+                        <span class="gallery-badge">Pemeliharaan</span>
+                    </div>
+                    <div class="gallery-body">
+                        <h3 class="gallery-card-title">Peningkatan Jalan Lintas Kabupaten Dimulai</h3>
+                        <p class="gallery-card-desc">Proyek peningkatan mutu struktur jalan aspal sepanjang 22 kilometer
+                            resmi dimulai guna mendukung kelancaran distribusi logistik.</p>
+                    </div>
+                </div>
+
+                <!-- Berita 3 -->
+                <div class="gallery-card reveal" data-fancybox="gallery-main" data-src="https://images.pexels.com/photos/29627341/pexels-photo-29627341.jpeg?auto=compress&cs=tinysrgb&w=1200" data-caption="Rapat Evaluasi Semester I TA 2026: Evaluasi komprehensif capaian target fisik dan serapan keuangan seluruh paket pekerjaan kontraktual jembatan dan jalan.">
+                    <div class="gallery-image-wrapper">
+                        <img class="gallery-image"
+                            src="https://images.pexels.com/photos/29627341/pexels-photo-29627341.jpeg?auto=compress&cs=tinysrgb&w=800"
+                            alt="Kantor Dinas">
+                        <span class="gallery-badge">Koordinasi</span>
+                    </div>
+                    <div class="gallery-body">
+                        <h3 class="gallery-card-title">Rapat Evaluasi Semester I TA 2026</h3>
+                        <p class="gallery-card-desc">Evaluasi komprehensif capaian target fisik dan serapan keuangan
+                            seluruh paket pekerjaan kontraktual jembatan dan jalan.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- GOOGLE SHEETS API INTEGRATION PANEL -->
+
+
+        <!-- FOOTER -->
+        <footer id="about">
+            <div class="footer-content" id="contact">
+                <div>&copy; 2026 Portal Integrasi Data Infrastruktur Jalan & Jembatan. Hak Cipta Dilindungi.</div>
+                <div class="footer-credit">Dashboard Created by NAEL 2026</div>
+            </div>
+        </footer>
+
+    </div>
+
+        <!-- ADMIN PASSWORD MODAL -->
+        <div class="rekap-modal-overlay" id="admin-password-overlay" onclick="closeAdminPasswordModal(event)">
+            <div class="rekap-modal" style="max-width: 380px;">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Verifikasi Admin
+                    </h3>
+                    <button class="modal-close-btn" onclick="closeAdminPasswordModalDirect()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form class="modal-form" id="admin-password-form" onsubmit="submitAdminPassword(event)">
+                    <div class="modal-form-grid" style="grid-template-columns: 1fr; gap: 0.5rem;">
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="admin-password-input">Masukkan Kata Sandi</label>
+                            <input class="modal-input" type="password" id="admin-password-input" placeholder="••••••••" required style="text-align: center; letter-spacing: 0.15rem; font-size: 1.15rem;">
+                            <span class="modal-input-preview" id="admin-password-error" style="color: var(--error); margin-top: 0.35rem; font-size: 0.72rem; text-align: center; display: block; min-height: 1.25rem;"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="justify-content: space-between; padding-top: 1rem; margin-top: 0.5rem;">
+                        <button type="button" class="modal-cancel-btn" onclick="closeAdminPasswordModalDirect()">Batal</button>
+                        <button type="submit" class="modal-save-btn">
+                            <i class="fa-solid fa-unlock"></i>
+                            Masuk
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- CARD EDIT MODAL -->
+        <div class="rekap-modal-overlay" id="card-edit-modal-overlay" onclick="closeCardModal(event)">
+            <div class="rekap-modal" id="card-edit-modal" style="max-width: 440px;">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="card-modal-title">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Edit Data Summary 2025
+                    </h3>
+                    <button class="modal-close-btn" onclick="closeCardModalDirect()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form class="modal-form" id="card-modal-form" onsubmit="saveCardModalData(event)">
+                    <input type="hidden" id="card-modal-year">
+                    <div class="modal-form-grid" style="grid-template-columns: 1fr; gap: 1rem;">
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="card-modal-title-input">Judul Card</label>
+                            <input class="modal-input" type="text" id="card-modal-title-input" placeholder="Contoh: Tahun Anggaran 2025" required>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="card-modal-subtitle-input">Deskripsi Card</label>
+                            <input class="modal-input" type="text" id="card-modal-subtitle-input" placeholder="Contoh: Kemantapan Jalan Provinsi Kaltim" required>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="card-modal-rencana">Rencana (%)</label>
+                            <input class="modal-input" type="number" id="card-modal-rencana" placeholder="Contoh: 85.70" min="0" max="100" step="0.01" required>
+                        </div>
+                        <div class="modal-form-group" id="card-modal-realisasi-group">
+                            <label class="modal-label" for="card-modal-realisasi">Realisasi (%)</label>
+                            <input class="modal-input" type="number" id="card-modal-realisasi" placeholder="Contoh: 85.83" min="0" max="100" step="0.01">
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" id="card-modal-panjang-label" for="card-modal-panjang">Total Panjang Jalan Tertangani (Km)</label>
+                            <input class="modal-input" type="number" id="card-modal-panjang" placeholder="Contoh: 805.77" min="0" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding-top: 1rem; margin-top: 0.5rem;">
+                        <button type="button" class="modal-cancel-btn" onclick="closeCardModalDirect()">Batal</button>
+                        <button type="submit" class="modal-save-btn">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Simpan Data
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- PORTAL EDIT MODAL -->
+        <div class="rekap-modal-overlay" id="portal-edit-modal-overlay" onclick="closePortalModal(event)">
+            <div class="rekap-modal" id="portal-edit-modal" style="max-width: 440px;">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="portal-modal-title">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Tambah Button Portal
+                    </h3>
+                    <button class="modal-close-btn" onclick="closePortalModalDirect()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form class="modal-form" id="portal-modal-form" onsubmit="savePortalModalData(event)">
+                    <input type="hidden" id="portal-modal-action">
+                    <input type="hidden" id="portal-modal-group-id">
+                    <input type="hidden" id="portal-modal-button-id">
+                    <div class="modal-form-grid" style="grid-template-columns: 1fr; gap: 1rem;">
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="portal-modal-title-input">Judul Button</label>
+                            <input class="modal-input" type="text" id="portal-modal-title-input" placeholder="Contoh: Dokumen Paket Pekerjaan TA 2026" required>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="portal-modal-url-input">Link Tujuan Button</label>
+                            <input class="modal-input" type="url" id="portal-modal-url-input" placeholder="https://docs.google.com/..." required>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="portal-modal-icon-select">Ikon Button</label>
+                            <select class="modal-input" id="portal-modal-icon-select" required style="background: rgba(0, 0, 0, 0.4); color: var(--text-primary); border: 1px solid var(--card-border); padding: 0.65rem 0.85rem; border-radius: 10px; font-family: inherit; font-size: 0.85rem; outline: none; transition: var(--transition);">
+                                <option value="fa-solid fa-folder-open">📂 Folder / Direktori</option>
+                                <option value="fa-solid fa-file-invoice">📄 File / Dokumen</option>
+                                <option value="fa-solid fa-database">🗄️ Database / Gudang Data</option>
+                                <option value="fa-solid fa-chart-pie">📊 Prognosis / Diagram</option>
+                                <option value="fa-solid fa-road">🛣️ Lintas Jalan / Peta</option>
+                                <option value="fa-solid fa-book">📖 Buku Program / Master</option>
+                                <option value="fa-solid fa-calendar">📅 Kalender Kegiatan</option>
+                                <option value="fa-solid fa-link">🔗 Tautan Umum</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding-top: 1rem; margin-top: 0.5rem;">
+                        <button type="button" class="modal-cancel-btn" onclick="closePortalModalDirect()">Batal</button>
+                        <button type="submit" class="modal-save-btn">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Simpan Button
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    <!-- Fancybox JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <!-- Local Script -->
+    <script src="app.js"></script>
+</body>
+
+</html>
