@@ -1426,28 +1426,45 @@ function initNavbar() {
         }, { passive: true });
     }
 
-    // Toggle Mobile Menu
+    const navBackdrop = document.getElementById('nav-backdrop');
+    const menuCloseBtn = document.getElementById('mobile-menu-close');
+
+    // Close Mobile Menu Helper
+    function closeMobileMenu() {
+        if (navMenu) navMenu.classList.remove('is-active');
+        if (navBackdrop) navBackdrop.classList.remove('is-active');
+    }
+
+    // Open Mobile Menu
     if (menuToggle && navMenu) {
         menuToggle.addEventListener('click', (e) => {
             e.stopPropagation();
-            navMenu.classList.toggle('is-active');
-            const icon = menuToggle.querySelector('i');
-            if (navMenu.classList.contains('is-active')) {
-                icon.className = 'fa-solid fa-xmark';
-            } else {
-                icon.className = 'fa-solid fa-bars';
-            }
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-                navMenu.classList.remove('is-active');
-                const icon = menuToggle.querySelector('i');
-                if (icon) icon.className = 'fa-solid fa-bars';
-            }
+            navMenu.classList.add('is-active');
+            if (navBackdrop) navBackdrop.classList.add('is-active');
         });
     }
+
+    // Close on Mobile Close button click
+    if (menuCloseBtn) {
+        menuCloseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeMobileMenu();
+        });
+    }
+
+    // Close on Backdrop click
+    if (navBackdrop) {
+        navBackdrop.addEventListener('click', () => {
+            closeMobileMenu();
+        });
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (navMenu && !navMenu.contains(e.target) && menuToggle && !menuToggle.contains(e.target)) {
+            closeMobileMenu();
+        }
+    });
 
     // Close menu when selecting a menu link and handle click scroll behavior
     navLinks.forEach(link => {
@@ -1458,11 +1475,7 @@ function initNavbar() {
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
 
-            if (navMenu) {
-                navMenu.classList.remove('is-active');
-                const icon = menuToggle?.querySelector('i');
-                if (icon) icon.className = 'fa-solid fa-bars';
-            }
+            closeMobileMenu();
 
             const href = link.getAttribute('href');
             if (href === '#home') {

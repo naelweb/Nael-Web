@@ -67,6 +67,9 @@
     </div>
     <!-- END LOADING SCREEN -->
 
+    <!-- NAVIGATION BACKDROP FOR MOBILE DRAWER -->
+    <div class="nav-backdrop" id="nav-backdrop"></div>
+
     <div class="container">
 
         <!-- HEADER SECTION -->
@@ -80,6 +83,15 @@
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <ul class="nav-menu" id="nav-menu">
+                    <!-- Mobile Drawer Header -->
+                    <li class="mobile-menu-header">
+                        <div class="mobile-menu-brand">
+                            <img src="src/logo-01.svg" alt="NAEL" style="height: 24px; width: auto; display: block;">
+                        </div>
+                        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Tutup Menu">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </li>
                     <li><a href="#home" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a></li>
                     <li><a href="#data-hub" class="nav-link"><i class="fa-solid fa-database"></i> Data Hub</a></li>
                     <li><a href="#projects" class="nav-link"><i class="fa-solid fa-road"></i> Projects</a></li>
