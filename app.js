@@ -767,7 +767,7 @@ function renderRekapTable() {
 
         return `
         <tr>
-            <td class="col-tahun"><button class="btn-detail-trigger" onclick="showYearDetails(${row.tahun})" title="Klik untuk melihat rincian sub kegiatan">${row.tahun}</button></td>
+            <td class="col-tahun">${row.tahun}</td>
             <td class="td-currency">
                 ${formatRupiahRekap(row.pagu)}
                 <span class="td-sub">${formatRupiahFull(row.pagu)}</span>
