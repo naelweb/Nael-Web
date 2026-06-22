@@ -1615,6 +1615,7 @@ function initNavbar() {
         if (navMenu) navMenu.classList.remove('is-active');
         if (navBackdrop) navBackdrop.classList.remove('is-active');
         if (headerEl) headerEl.classList.remove('mobile-nav-active');
+        document.body.classList.remove('mobile-nav-active');
     }
 
     // Open Mobile Menu
@@ -1624,6 +1625,7 @@ function initNavbar() {
             navMenu.classList.add('is-active');
             if (navBackdrop) navBackdrop.classList.add('is-active');
             if (headerEl) headerEl.classList.add('mobile-nav-active');
+            document.body.classList.add('mobile-nav-active');
         });
     }
 

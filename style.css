@@ -40,6 +40,8 @@
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 6.5rem;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 body {
@@ -54,6 +56,11 @@ body {
     line-height: 1.6;
     letter-spacing: -0.01em;
     position: relative;
+    max-width: 100%;
+}
+
+body.mobile-nav-active {
+    overflow: hidden !important;
 }
 
 /* Clario Radial Glow Highlights background */
@@ -1640,7 +1647,9 @@ body.admin-locked .card-edit-btn {
 /* Mobile Media Queries */
 @media (max-width: 768px) {
     header {
-        padding: 1.25rem 1.25rem;
+        margin-left: -0.75rem;
+        margin-right: -0.75rem;
+        padding: 1rem 0.75rem;
         transition: z-index 0s, padding 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -1656,7 +1665,7 @@ body.admin-locked .card-edit-btn {
     }
 
     header.scrolled {
-        padding: 0.95rem 1.25rem;
+        padding: 0.95rem 0.75rem;
     }
 
     .brand-logo-img {
@@ -2581,6 +2590,11 @@ body.admin-locked .admin-only {
     .container {
         padding: 1.25rem 1rem;
         gap: 1.5rem;
+    }
+    header {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        padding: 1.25rem 1rem;
     }
     .dashboard-grid {
         grid-template-columns: 1fr;
