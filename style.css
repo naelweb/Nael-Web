@@ -2394,6 +2394,186 @@ body.loaded .container {
     transform: translateY(0) scale(1);
 }
 
+/* Helper class for admin only elements */
+body.admin-locked .admin-only {
+    display: none !important;
+}
 
+/* Sidebar Gallery Hover Actions */
+.gallery-item-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.35rem;
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 10;
+}
 
+.sidebar-gallery-item:hover .gallery-item-actions {
+    opacity: 1;
+}
+
+.gallery-action-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    transition: var(--transition);
+}
+
+.gallery-action-btn.edit {
+    background: rgba(99, 102, 241, 0.85);
+    color: #fff;
+    border: 1px solid rgba(99, 102, 241, 0.9);
+}
+
+.gallery-action-btn.edit:hover {
+    background: var(--accent-cyan);
+    color: #000;
+    transform: scale(1.1);
+}
+
+.gallery-action-btn.delete {
+    background: rgba(239, 68, 68, 0.85);
+    color: #fff;
+    border: 1px solid rgba(239, 68, 68, 0.9);
+}
+
+.gallery-action-btn.delete:hover {
+    background: var(--error);
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* News Section Hover Actions */
+.news-item-actions {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.gallery-card:hover .news-item-actions {
+    opacity: 1;
+}
+
+/* News Section Header Layout Alignments */
+.gallery-section .rekap-header {
+    border-bottom: 1px solid var(--card-border) !important;
+    padding-bottom: 1rem !important;
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+/* Image upload input styling */
+.modal-form-group input[type="file"] {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px dashed var(--card-border);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.8rem;
+    outline: none;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.modal-form-group input[type="file"]:hover {
+    border-color: var(--accent-cyan);
+    color: var(--text-primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+/* Upload progress indicator */
+.upload-progress-container {
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
+    min-height: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.upload-progress-container.loading {
+    color: var(--accent-cyan);
+}
+
+.upload-progress-container.success {
+    color: var(--success);
+}
+
+.upload-progress-container.error {
+    color: var(--error);
+}
+
+/* Spinner animation for upload loading state */
+.upload-spinner {
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(99, 102, 241, 0.2);
+    border-top: 2px solid var(--accent-cyan);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+}
+
+/* Sidebar gallery item overlay for more items */
+.sidebar-gallery-item-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 8, 12, 0.75);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pupr-yellow);
+    font-size: 1.15rem;
+    font-weight: 800;
+    z-index: 2;
+    transition: var(--transition);
+    pointer-events: none; /* Let clicks pass through to the item */
+}
+
+.sidebar-gallery-item:hover .sidebar-gallery-item-overlay {
+    background: rgba(8, 8, 12, 0.6);
+    color: #fff;
+}
+
+/* Custom Toast Alerts styling & animations */
+@keyframes toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes toast-out {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+}
 

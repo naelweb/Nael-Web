@@ -246,32 +246,15 @@
                         <button class="gallery-title-edit-btn col-act" onclick="startInlineEditGalleryTitle()" title="Edit Judul Galeri">
                             <i class="fa-solid fa-pen"></i>
                         </button>
+                        <button class="gallery-title-edit-btn admin-only" onclick="openSidebarGalleryAddModal('gallery_2025')" title="Tambah Foto Galeri" style="margin-left: 0.5rem;">
+                            <i class="fa-solid fa-plus"></i> Tambah
+                        </button>
+                        <button class="gallery-title-edit-btn admin-only" onclick="openManageGalleryModal('gallery_2025')" title="Kelola Galeri" style="margin-left: 0.5rem;">
+                            <i class="fa-solid fa-list"></i> Kelola
+                        </button>
                     </h3>
-                    <div class="sidebar-gallery">
-                        <div class="sidebar-gallery-item" data-fancybox="gallery-2025" data-src="https://images.pexels.com/photos/11701519/pexels-photo-11701519.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Jembatan Mahakam">
-                            <img src="https://images.pexels.com/photos/11701519/pexels-photo-11701519.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Jembatan Mahakam">
-                            <div class="sidebar-gallery-info">
-                                <span class="sidebar-gallery-title">Jembatan Mahakam</span>
-                            </div>
-                        </div>
-                        <div class="sidebar-gallery-item" data-fancybox="gallery-2025" data-src="https://images.pexels.com/photos/4575148/pexels-photo-4575148.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Pelebaran Lintas Kutai">
-                            <img src="https://images.pexels.com/photos/4575148/pexels-photo-4575148.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Pelebaran Lintas Lintas Kutai">
-                            <div class="sidebar-gallery-info">
-                                <span class="sidebar-gallery-title">Pelebaran Lintas Kutai</span>
-                            </div>
-                        </div>
-                        <div class="sidebar-gallery-item" data-fancybox="gallery-2025" data-src="https://www.jiashangpipe.com/wp-content/uploads/2024/05/%E5%8D%B0%E5%B0%BC%E7%85%A4%E7%9F%BF.jpg" data-caption="Sistem Drainase">
-                            <img src="https://www.jiashangpipe.com/wp-content/uploads/2024/05/%E5%8D%B0%E5%B0%BC%E7%85%A4%E7%9F%BF.jpg" alt="Pekerjaan Drainase">
-                            <div class="sidebar-gallery-info">
-                                <span class="sidebar-gallery-title">Sistem Drainase</span>
-                            </div>
-                        </div>
-                        <div class="sidebar-gallery-item" data-fancybox="gallery-2025" data-src="https://images.pexels.com/photos/2209529/pexels-photo-2209529.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Survei Lapangan">
-                            <img src="https://images.pexels.com/photos/2209529/pexels-photo-2209529.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Survei Lapangan">
-                            <div class="sidebar-gallery-info">
-                                <span class="sidebar-gallery-title">Survei Lapangan</span>
-                            </div>
-                        </div>
+                    <div class="sidebar-gallery" id="sidebar-gallery-2025">
+                        <!-- Populated dynamically by JS -->
                     </div>
                 </div>
 
@@ -279,21 +262,13 @@
                 <div class="sidebar-card reveal" id="insight">
                     <h3 class="sidebar-card-title">
                         <i class="fa-solid fa-lightbulb"></i>
-                        Insight Infrastruktur Kaltim
+                        <span>Insight Infrastruktur Kaltim</span>
+                        <button class="gallery-title-edit-btn admin-only" onclick="openInsightEditModal()" title="Edit Insight" style="margin-left: auto;">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
                     </h3>
-                    <ul class="stats-list" style="margin-top: 0.5rem;">
-                        <li class="stats-item" style="flex-direction: column; align-items: flex-start; gap: 0.25rem;">
-                            <span class="stats-label" style="color: var(--accent-cyan); font-weight: 700; font-size: 0.8rem;">Rasio Kemantapan Jalan</span>
-                            <span style="font-size: 0.75rem; line-height: 1.4;">Tingkat kemantapan koridor jalan provinsi Kalimantan Timur saat ini mencapai <strong>85,83%</strong>.</span>
-                        </li>
-                        <li class="stats-item" style="flex-direction: column; align-items: flex-start; gap: 0.25rem;">
-                            <span class="stats-label" style="color: var(--pupr-yellow); font-weight: 700; font-size: 0.8rem;">Konektivitas IKN</span>
-                            <span style="font-size: 0.75rem; line-height: 1.4;">Pembangunan & pelebaran akses logistik terus diprioritaskan guna mendukung integrasi kawasan IKN Nusantara.</span>
-                        </li>
-                        <li class="stats-item" style="flex-direction: column; align-items: flex-start; gap: 0.25rem;">
-                            <span class="stats-label" style="color: var(--success); font-weight: 700; font-size: 0.8rem;">Jembatan Penghubung</span>
-                            <span style="font-size: 0.75rem; line-height: 1.4;">Dinas PU mengelola lebih dari <strong>2.400 meter</strong> total bentang jembatan yang tersebar di wilayah Kaltim.</span>
-                        </li>
+                    <ul class="stats-list" id="insight-list" style="margin-top: 0.5rem;">
+                        <!-- Populated dynamically by JS -->
                     </ul>
                 </div>
 
@@ -305,32 +280,15 @@
                         <button class="gallery-title-edit-btn col-act" onclick="startInlineEditFieldDocTitle()" title="Edit Judul Galeri">
                             <i class="fa-solid fa-pen"></i>
                         </button>
+                        <button class="gallery-title-edit-btn admin-only" onclick="openSidebarGalleryAddModal('gallery_lapangan')" title="Tambah Foto Lapangan" style="margin-left: 0.5rem;">
+                            <i class="fa-solid fa-plus"></i> Tambah
+                        </button>
+                        <button class="gallery-title-edit-btn admin-only" onclick="openManageGalleryModal('gallery_lapangan')" title="Kelola Galeri" style="margin-left: 0.5rem;">
+                            <i class="fa-solid fa-list"></i> Kelola
+                        </button>
                     </h3>
-                    <div class="sidebar-gallery">
-                        <div class="sidebar-gallery-item" data-fancybox="gallery-lapangan" data-src="https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Pelebaran Lintas Bontang">
-                            <img src="https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Pelebaran Jalan Bontang">
-                            <div class="sidebar-gallery-info">
-                                <span class="sidebar-gallery-title">Pelebaran Lintas Bontang</span>
-                            </div>
-                        </div>
-                        <div class="sidebar-gallery-item" data-fancybox="gallery-lapangan" data-src="https://images.pexels.com/photos/93400/pexels-photo-93400.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Survei Jembatan Kutai">
-                            <img src="https://images.pexels.com/photos/93400/pexels-photo-93400.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Survei Jembatan Kutai">
-                            <div class="sidebar-gallery-info">
-                                <span class="sidebar-gallery-title">Survei Jembatan Kutai</span>
-                            </div>
-                        </div>
-                        <div class="sidebar-gallery-item" data-fancybox="gallery-lapangan" data-src="https://images.pexels.com/photos/159306/construction-site-build-construction-work-159306.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Pengaspalan Samarinda">
-                            <img src="https://images.pexels.com/photos/159306/construction-site-build-construction-work-159306.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Pengaspalan Lintas Samarinda">
-                            <div class="sidebar-gallery-info">
-                                <span class="sidebar-gallery-title">Pengaspalan Samarinda</span>
-                            </div>
-                        </div>
-                        <div class="sidebar-gallery-item" data-fancybox="gallery-lapangan" data-src="https://images.pexels.com/photos/3856027/pexels-photo-3856027.jpeg?auto=compress&cs=tinysrgb&w=800" data-caption="Inspeksi Lintas Lereng">
-                            <img src="https://images.pexels.com/photos/3856027/pexels-photo-3856027.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Inspeksi Jalur Lereng">
-                            <div class="sidebar-gallery-info">
-                                <span class="sidebar-gallery-title">Inspeksi Lintas Lereng</span>
-                            </div>
-                        </div>
+                    <div class="sidebar-gallery" id="sidebar-gallery-lapangan">
+                        <!-- Populated dynamically by JS -->
                     </div>
                 </div>
 
@@ -466,57 +424,20 @@
 
         <!-- VISUAL NEWS / GALLERY SECTION -->
         <section class="gallery-section reveal" id="gallery" aria-label="Galeri Kegiatan Bidang Jalan Jembatan">
-            <h2 class="section-title">
-                <i class="fa-solid fa-images"></i>
-                Dokumentasi & Berita Kegiatan
-            </h2>
-            <div class="gallery-grid">
-
-                <!-- Berita 1 -->
-                <div class="gallery-card reveal" data-fancybox="gallery-main" data-src="https://images.pexels.com/photos/11701519/pexels-photo-11701519.jpeg?auto=compress&cs=tinysrgb&w=1200" data-caption="Progres Jembatan Sungai Besar Capai 65%: Pembangunan fisik jembatan penghubung utama sepanjang 120 meter terus berjalan di lapangan sesuai rencana kerja.">
-                    <div class="gallery-image-wrapper">
-                        <img class="gallery-image"
-                            src="https://images.pexels.com/photos/11701519/pexels-photo-11701519.jpeg?auto=compress&cs=tinysrgb&w=800"
-                            alt="Konstruksi Jembatan">
-                        <span class="gallery-badge">Konstruksi</span>
-                    </div>
-                    <div class="gallery-body">
-                        <h3 class="gallery-card-title">Progres Jembatan Sungai Besar Capai 65%</h3>
-                        <p class="gallery-card-desc">Pembangunan fisik jembatan penghubung utama sepanjang 120 meter
-                            terus berjalan di lapangan sesuai rencana kerja.</p>
-                    </div>
+            <div class="rekap-header" style="border-bottom: none; padding-bottom: 0;">
+                <h2 class="section-title" style="border-bottom: none; padding-bottom: 0; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-images"></i>
+                    Dokumentasi &amp; Berita Kegiatan
+                </h2>
+                <div class="rekap-actions">
+                    <button class="rekap-add-btn admin-only" onclick="openNewsAddModal()">
+                        <i class="fa-solid fa-plus"></i>
+                        Tambah Berita
+                    </button>
                 </div>
-
-                <!-- Berita 2 -->
-                <div class="gallery-card reveal" data-fancybox="gallery-main" data-src="https://images.pexels.com/photos/4575148/pexels-photo-4575148.jpeg?auto=compress&cs=tinysrgb&w=1200" data-caption="Peningkatan Jalan Lintas Kabupaten Dimulai: Proyek peningkatan mutu struktur jalan aspal sepanjang 22 kilometer resmi dimulai guna mendukung kelancaran distribusi logistik.">
-                    <div class="gallery-image-wrapper">
-                        <img class="gallery-image"
-                            src="https://images.pexels.com/photos/4575148/pexels-photo-4575148.jpeg?auto=compress&cs=tinysrgb&w=800"
-                            alt="Pekerjaan Pengaspalan">
-                        <span class="gallery-badge">Pemeliharaan</span>
-                    </div>
-                    <div class="gallery-body">
-                        <h3 class="gallery-card-title">Peningkatan Jalan Lintas Kabupaten Dimulai</h3>
-                        <p class="gallery-card-desc">Proyek peningkatan mutu struktur jalan aspal sepanjang 22 kilometer
-                            resmi dimulai guna mendukung kelancaran distribusi logistik.</p>
-                    </div>
-                </div>
-
-                <!-- Berita 3 -->
-                <div class="gallery-card reveal" data-fancybox="gallery-main" data-src="https://images.pexels.com/photos/29627341/pexels-photo-29627341.jpeg?auto=compress&cs=tinysrgb&w=1200" data-caption="Rapat Evaluasi Semester I TA 2026: Evaluasi komprehensif capaian target fisik dan serapan keuangan seluruh paket pekerjaan kontraktual jembatan dan jalan.">
-                    <div class="gallery-image-wrapper">
-                        <img class="gallery-image"
-                            src="https://images.pexels.com/photos/29627341/pexels-photo-29627341.jpeg?auto=compress&cs=tinysrgb&w=800"
-                            alt="Kantor Dinas">
-                        <span class="gallery-badge">Koordinasi</span>
-                    </div>
-                    <div class="gallery-body">
-                        <h3 class="gallery-card-title">Rapat Evaluasi Semester I TA 2026</h3>
-                        <p class="gallery-card-desc">Evaluasi komprehensif capaian target fisik dan serapan keuangan
-                            seluruh paket pekerjaan kontraktual jembatan dan jalan.</p>
-                    </div>
-                </div>
-
+            </div>
+            <div class="gallery-grid" id="news-grid">
+                <!-- Populated dynamically by JS -->
             </div>
         </section>
 
@@ -659,6 +580,196 @@
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- INSIGHT EDIT MODAL -->
+        <div class="rekap-modal-overlay" id="insight-edit-modal-overlay" onclick="closeInsightModal(event)">
+            <div class="rekap-modal" id="insight-edit-modal" style="max-width: 520px;">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Edit Insight Infrastruktur
+                    </h3>
+                    <button class="modal-close-btn" onclick="closeInsightModalDirect()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form class="modal-form" id="insight-modal-form" onsubmit="saveInsightModalData(event)">
+                    <div style="max-height: 450px; overflow-y: auto; padding-right: 0.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+                        <!-- Insight Item 1 -->
+                        <div style="border-bottom: 1px solid var(--card-border); padding-bottom: 1rem;">
+                            <h4 style="color: var(--accent-cyan); font-size: 0.8rem; margin-bottom: 0.75rem; text-transform: uppercase;">Insight 1</h4>
+                            <div class="modal-form-grid" style="grid-template-columns: 1fr; gap: 0.75rem;">
+                                <div class="modal-form-group">
+                                    <label class="modal-label" for="insight-1-label">Judul / Label</label>
+                                    <input class="modal-input" type="text" id="insight-1-label" required>
+                                </div>
+                                <div class="modal-form-group">
+                                    <label class="modal-label" for="insight-1-value">Deskripsi / Nilai (Mendukung HTML)</label>
+                                    <textarea class="modal-input" id="insight-1-value" rows="2" style="resize: vertical; font-family: inherit;" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Insight Item 2 -->
+                        <div style="border-bottom: 1px solid var(--card-border); padding-bottom: 1rem;">
+                            <h4 style="color: var(--pupr-yellow); font-size: 0.8rem; margin-bottom: 0.75rem; text-transform: uppercase;">Insight 2</h4>
+                            <div class="modal-form-grid" style="grid-template-columns: 1fr; gap: 0.75rem;">
+                                <div class="modal-form-group">
+                                    <label class="modal-label" for="insight-2-label">Judul / Label</label>
+                                    <input class="modal-input" type="text" id="insight-2-label" required>
+                                </div>
+                                <div class="modal-form-group">
+                                    <label class="modal-label" for="insight-2-value">Deskripsi / Nilai (Mendukung HTML)</label>
+                                    <textarea class="modal-input" id="insight-2-value" rows="2" style="resize: vertical; font-family: inherit;" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Insight Item 3 -->
+                        <div style="padding-bottom: 0.5rem;">
+                            <h4 style="color: var(--success); font-size: 0.8rem; margin-bottom: 0.75rem; text-transform: uppercase;">Insight 3</h4>
+                            <div class="modal-form-grid" style="grid-template-columns: 1fr; gap: 0.75rem;">
+                                <div class="modal-form-group">
+                                    <label class="modal-label" for="insight-3-label">Judul / Label</label>
+                                    <input class="modal-input" type="text" id="insight-3-label" required>
+                                </div>
+                                <div class="modal-form-group">
+                                    <label class="modal-label" for="insight-3-value">Deskripsi / Nilai (Mendukung HTML)</label>
+                                    <textarea class="modal-input" id="insight-3-value" rows="2" style="resize: vertical; font-family: inherit;" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding-top: 1rem; margin-top: 0.5rem;">
+                        <button type="button" class="modal-cancel-btn" onclick="closeInsightModalDirect()">Batal</button>
+                        <button type="submit" class="modal-save-btn">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Simpan Insight
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- SIDEBAR GALLERY ITEM EDIT MODAL -->
+        <div class="rekap-modal-overlay" id="sidebar-gallery-edit-modal-overlay" onclick="closeSidebarGalleryModal(event)">
+            <div class="rekap-modal" id="sidebar-gallery-edit-modal" style="max-width: 440px;">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="sidebar-gallery-modal-title">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Tambah/Edit Foto Galeri
+                    </h3>
+                    <button class="modal-close-btn" onclick="closeSidebarGalleryModalDirect()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form class="modal-form" id="sidebar-gallery-modal-form" onsubmit="saveSidebarGalleryModalData(event)">
+                    <input type="hidden" id="sidebar-gallery-modal-action">
+                    <input type="hidden" id="sidebar-gallery-modal-key">
+                    <input type="hidden" id="sidebar-gallery-modal-index">
+                    <div class="modal-form-grid" style="grid-template-columns: 1fr; gap: 1rem;">
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="sidebar-gallery-title-input">Judul / Caption Foto</label>
+                            <input class="modal-input" type="text" id="sidebar-gallery-title-input" placeholder="Contoh: Jembatan Mahakam" required>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="sidebar-gallery-file-input">Upload Gambar Baru</label>
+                            <input type="file" id="sidebar-gallery-file-input" accept="image/*">
+                            <div class="upload-progress-container" id="sidebar-gallery-upload-progress"></div>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="sidebar-gallery-img-input">Link URL Gambar (Terisi otomatis saat upload)</label>
+                            <input class="modal-input" type="text" id="sidebar-gallery-img-input" placeholder="https://images.pexels.com/..." required>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding-top: 1rem; margin-top: 0.5rem;">
+                        <button type="button" class="modal-cancel-btn" onclick="closeSidebarGalleryModalDirect()">Batal</button>
+                        <button type="submit" class="modal-save-btn">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Simpan Gambar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- NEWS ITEM EDIT MODAL -->
+        <div class="rekap-modal-overlay" id="news-edit-modal-overlay" onclick="closeNewsModal(event)">
+            <div class="rekap-modal" id="news-edit-modal" style="max-width: 480px;">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="news-modal-title">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Tambah/Edit Berita Kegiatan
+                    </h3>
+                    <button class="modal-close-btn" onclick="closeNewsModalDirect()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form class="modal-form" id="news-modal-form" onsubmit="saveNewsModalData(event)">
+                    <input type="hidden" id="news-modal-action">
+                    <input type="hidden" id="news-modal-index">
+                    <div class="modal-form-grid" style="grid-template-columns: 1fr; gap: 1rem;">
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="news-title-input">Judul Berita</label>
+                            <input class="modal-input" type="text" id="news-title-input" placeholder="Contoh: Rapat Koordinasi Bidang Jalan" required>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="news-desc-input">Deskripsi Singkat</label>
+                            <textarea class="modal-input" id="news-desc-input" rows="3" placeholder="Deskripsi kegiatan di lapangan..." style="resize: vertical; font-family: inherit;" required></textarea>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="news-file-input">Upload Gambar Baru</label>
+                            <input type="file" id="news-file-input" accept="image/*">
+                            <div class="upload-progress-container" id="news-upload-progress"></div>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="news-img-input">Link URL Gambar (Terisi otomatis saat upload)</label>
+                            <input class="modal-input" type="text" id="news-img-input" placeholder="https://images.pexels.com/..." required>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-label" for="news-badge-select">Badge Kategori</label>
+                            <select class="modal-input" id="news-badge-select" required style="background: rgba(0, 0, 0, 0.4); color: var(--text-primary); border: 1px solid var(--card-border); padding: 0.65rem 0.85rem; border-radius: 10px; font-family: inherit; font-size: 0.85rem; outline: none; transition: var(--transition);">
+                                <option value="Konstruksi">🚧 Konstruksi</option>
+                                <option value="Pemeliharaan">🧹 Pemeliharaan</option>
+                                <option value="Koordinasi">🤝 Koordinasi</option>
+                                <option value="Inspeksi">🔍 Inspeksi</option>
+                                <option value="Sosialisasi">📢 Sosialisasi</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding-top: 1rem; margin-top: 0.5rem;">
+                        <button type="button" class="modal-cancel-btn" onclick="closeNewsModalDirect()">Batal</button>
+                        <button type="submit" class="modal-save-btn">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Simpan Berita
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- MANAGE GALLERY MODAL -->
+        <div class="rekap-modal-overlay" id="manage-gallery-modal-overlay" onclick="closeManageGalleryModal(event)">
+            <div class="rekap-modal" id="manage-gallery-modal" style="max-width: 500px;">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="manage-gallery-modal-title">
+                        <i class="fa-solid fa-images"></i>
+                        Kelola Foto Galeri
+                    </h3>
+                    <button class="modal-close-btn" onclick="closeManageGalleryModalDirect()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div style="padding: 1.25rem 1.5rem; max-height: 400px; overflow-y: auto;">
+                    <div id="manage-gallery-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <!-- List of photos with small edit/delete actions -->
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 1rem 1.5rem;">
+                    <button type="button" class="modal-save-btn" id="manage-gallery-add-shortcut-btn" style="margin-left: auto;">
+                        <i class="fa-solid fa-plus"></i> Tambah Foto Baru
+                    </button>
+                </div>
             </div>
         </div>
 

@@ -11,6 +11,133 @@ let cachedPortalData = null;
 let cachedRekapData = null;
 let cachedGalleryTitle = '';
 let cachedFieldDocTitle = '';
+let cachedInsightsData = null;
+let cachedGallery2025Data = null;
+let cachedGalleryLapanganData = null;
+let cachedNewsData = null;
+
+const INSIGHTS_STORAGE_KEY = 'bina_marga_insights_data';
+const GALLERY_2025_STORAGE_KEY = 'bina_marga_gallery_2025_data';
+const GALLERY_LAPANGAN_STORAGE_KEY = 'bina_marga_gallery_lapangan_data';
+const NEWS_STORAGE_KEY = 'bina_marga_news_data';
+
+function safeSetLocalStorage(key, value) {
+    try {
+        localStorage.setItem(key, value);
+    } catch (e) {
+        console.error(`Gagal menyimpan key "${key}" ke LocalStorage:`, e);
+        if (e.name === 'QuotaExceededError' || e.code === 22 || e.number === -2147024882) {
+            console.warn("LocalStorage quota exceeded! Data will only persist in-memory.");
+        }
+    }
+}
+
+const INSIGHTS_DEFAULT = [
+    { id: "insight-1", label: "Rasio Kemantapan Jalan", value: "Tingkat kemantapan koridor jalan provinsi Kalimantan Timur saat ini mencapai <strong>85,83%</strong>.", color: "var(--accent-cyan)" },
+    { id: "insight-2", label: "Konektivitas IKN", value: "Pembangunan & pelebaran akses logistik terus diprioritaskan guna mendukung integrasi kawasan IKN Nusantara.", color: "var(--pupr-yellow)" },
+    { id: "insight-3", label: "Jembatan Penghubung", value: "Dinas PU mengelola lebih dari <strong>2.400 meter</strong> total bentang jembatan yang tersebar di wilayah Kaltim.", color: "var(--success)" }
+];
+
+const GALLERY_2025_DEFAULT = [
+    { id: "g25-1", title: "Jembatan Mahakam", img: "https://images.pexels.com/photos/11701519/pexels-photo-11701519.jpeg?auto=compress&cs=tinysrgb&w=300", fullImg: "https://images.pexels.com/photos/11701519/pexels-photo-11701519.jpeg?auto=compress&cs=tinysrgb&w=800" },
+    { id: "g25-2", title: "Pelebaran Lintas Kutai", img: "https://images.pexels.com/photos/4575148/pexels-photo-4575148.jpeg?auto=compress&cs=tinysrgb&w=300", fullImg: "https://images.pexels.com/photos/4575148/pexels-photo-4575148.jpeg?auto=compress&cs=tinysrgb&w=800" },
+    { id: "g25-3", title: "Sistem Drainase", img: "https://www.jiashangpipe.com/wp-content/uploads/2024/05/%E5%8D%B0%E5%B0%BC%E7%85%A4%E7%9F%BF.jpg", fullImg: "https://www.jiashangpipe.com/wp-content/uploads/2024/05/%E5%8D%B0%E5%B0%BC%E7%85%A4%E7%9F%BF.jpg" },
+    { id: "g25-4", title: "Survei Lapangan", img: "https://images.pexels.com/photos/2209529/pexels-photo-2209529.jpeg?auto=compress&cs=tinysrgb&w=300", fullImg: "https://images.pexels.com/photos/2209529/pexels-photo-2209529.jpeg?auto=compress&cs=tinysrgb&w=800" }
+];
+
+const GALLERY_LAPANGAN_DEFAULT = [
+    { id: "gl-1", title: "Pelebaran Lintas Bontang", img: "https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=300", fullImg: "https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=800" },
+    { id: "gl-2", title: "Survei Jembatan Kutai", img: "https://images.pexels.com/photos/93400/pexels-photo-93400.jpeg?auto=compress&cs=tinysrgb&w=300", fullImg: "https://images.pexels.com/photos/93400/pexels-photo-93400.jpeg?auto=compress&cs=tinysrgb&w=800" },
+    { id: "gl-3", title: "Pengaspalan Samarinda", img: "https://images.pexels.com/photos/159306/construction-site-build-construction-work-159306.jpeg?auto=compress&cs=tinysrgb&w=300", fullImg: "https://images.pexels.com/photos/159306/construction-site-build-construction-work-159306.jpeg?auto=compress&cs=tinysrgb&w=800" },
+    { id: "gl-4", title: "Inspeksi Lintas Lereng", img: "https://images.pexels.com/photos/3856027/pexels-photo-3856027.jpeg?auto=compress&cs=tinysrgb&w=300", fullImg: "https://images.pexels.com/photos/3856027/pexels-photo-3856027.jpeg?auto=compress&cs=tinysrgb&w=800" }
+];
+
+const NEWS_DEFAULT = [
+    {
+        id: "news-1",
+        badge: "Konstruksi",
+        title: "Progres Jembatan Sungai Besar Capai 65%",
+        desc: "Pembangunan fisik jembatan penghubung utama sepanjang 120 meter terus berjalan di lapangan sesuai rencana kerja.",
+        img: "https://images.pexels.com/photos/11701519/pexels-photo-11701519.jpeg?auto=compress&cs=tinysrgb&w=800",
+        fullImg: "https://images.pexels.com/photos/11701519/pexels-photo-11701519.jpeg?auto=compress&cs=tinysrgb&w=1200"
+    },
+    {
+        id: "news-2",
+        badge: "Pemeliharaan",
+        title: "Peningkatan Jalan Lintas Kabupaten Dimulai",
+        desc: "Proyek peningkatan mutu struktur jalan aspal sepanjang 22 kilometer resmi dimulai guna mendukung kelancaran distribusi logistik.",
+        img: "https://images.pexels.com/photos/4575148/pexels-photo-4575148.jpeg?auto=compress&cs=tinysrgb&w=800",
+        fullImg: "https://images.pexels.com/photos/4575148/pexels-photo-4575148.jpeg?auto=compress&cs=tinysrgb&w=1200"
+    },
+    {
+        id: "news-3",
+        badge: "Koordinasi",
+        title: "Rapat Evaluasi Semester I TA 2026",
+        desc: "Evaluasi komprehensif capaian target fisik dan serapan keuangan seluruh paket pekerjaan kontraktual jembatan dan jalan.",
+        img: "https://images.pexels.com/photos/29627341/pexels-photo-29627341.jpeg?auto=compress&cs=tinysrgb&w=800",
+        fullImg: "https://images.pexels.com/photos/29627341/pexels-photo-29627341.jpeg?auto=compress&cs=tinysrgb&w=1200"
+    }
+];
+
+function loadInsightsData() {
+    if (cachedInsightsData) return cachedInsightsData;
+    try {
+        const stored = localStorage.getItem(INSIGHTS_STORAGE_KEY);
+        if (stored) return JSON.parse(stored);
+    } catch (e) {}
+    return JSON.parse(JSON.stringify(INSIGHTS_DEFAULT));
+}
+
+function loadGallery2025Data() {
+    if (cachedGallery2025Data) return cachedGallery2025Data;
+    try {
+        const stored = localStorage.getItem(GALLERY_2025_STORAGE_KEY);
+        if (stored) return JSON.parse(stored);
+    } catch (e) {}
+    return JSON.parse(JSON.stringify(GALLERY_2025_DEFAULT));
+}
+
+function loadGalleryLapanganData() {
+    if (cachedGalleryLapanganData) return cachedGalleryLapanganData;
+    try {
+        const stored = localStorage.getItem(GALLERY_LAPANGAN_STORAGE_KEY);
+        if (stored) return JSON.parse(stored);
+    } catch (e) {}
+    return JSON.parse(JSON.stringify(GALLERY_LAPANGAN_DEFAULT));
+}
+
+function loadNewsData() {
+    if (cachedNewsData) return cachedNewsData;
+    try {
+        const stored = localStorage.getItem(NEWS_STORAGE_KEY);
+        if (stored) return JSON.parse(stored);
+    } catch (e) {}
+    return JSON.parse(JSON.stringify(NEWS_DEFAULT));
+}
+
+function saveInsightsData(data) {
+    cachedInsightsData = data;
+    safeSetLocalStorage(INSIGHTS_STORAGE_KEY, JSON.stringify(data));
+    if (supabase) saveSettingToSupabase('insights_data', JSON.stringify(data));
+}
+
+function saveGallery2025Data(data) {
+    cachedGallery2025Data = data;
+    safeSetLocalStorage(GALLERY_2025_STORAGE_KEY, JSON.stringify(data));
+    if (supabase) saveSettingToSupabase('sidebar_gallery_2025_data', JSON.stringify(data));
+}
+
+function saveGalleryLapanganData(data) {
+    cachedGalleryLapanganData = data;
+    safeSetLocalStorage(GALLERY_LAPANGAN_STORAGE_KEY, JSON.stringify(data));
+    if (supabase) saveSettingToSupabase('sidebar_gallery_lapangan_data', JSON.stringify(data));
+}
+
+function saveNewsData(data) {
+    cachedNewsData = data;
+    safeSetLocalStorage(NEWS_STORAGE_KEY, JSON.stringify(data));
+    if (supabase) saveSettingToSupabase('news_data', JSON.stringify(data));
+}
 
 const CARDS_STORAGE_KEY = 'bina_marga_cards_data';
 const CARDS_DEFAULT = {
@@ -42,7 +169,7 @@ function loadCardsDataFromLocalStorage() {
 
 function saveCardsData(data) {
     cachedCardsData = data;
-    localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(data));
+    safeSetLocalStorage(CARDS_STORAGE_KEY, JSON.stringify(data));
     if (supabase) {
         saveCardsDataToSupabase(data);
     }
@@ -118,7 +245,7 @@ function loadPortalDataFromLocalStorage() {
 
 function savePortalData(data) {
     cachedPortalData = data;
-    localStorage.setItem(PORTALS_STORAGE_KEY, JSON.stringify(data));
+    safeSetLocalStorage(PORTALS_STORAGE_KEY, JSON.stringify(data));
     if (supabase) {
         savePortalDataToSupabase(data);
     }
@@ -207,6 +334,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupModalPreviews();
     renderSummaryCards();
     renderPortalSection();
+    renderInsights();
+    renderSidebarGallery('gallery_2025');
+    renderSidebarGallery('gallery_lapangan');
+    renderNewsGrid();
 
     // Initialize Navigation Bar
     initNavbar();
@@ -217,6 +348,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Initialize Scroll Reveal Animations
     initScrollReveal();
+
+    // Setup Image Upload listeners
+    setupImageUploadListeners();
 
     // Loading screen outro transition timing (completes in 1.6s)
     setTimeout(() => {
@@ -240,6 +374,10 @@ async function loadAllDbData() {
         cachedRekapData = loadRekapDataFromLocalStorage();
         cachedGalleryTitle = localStorage.getItem('bina_marga_gallery_title') || 'Dokumentasi Kegiatan 2025';
         cachedFieldDocTitle = localStorage.getItem('bina_marga_field_doc_title') || 'Dokumentasi Lapangan';
+        cachedInsightsData = loadInsightsData();
+        cachedGallery2025Data = loadGallery2025Data();
+        cachedGalleryLapanganData = loadGalleryLapanganData();
+        cachedNewsData = loadNewsData();
         return;
     }
 
@@ -319,6 +457,38 @@ async function loadAllDbData() {
             cachedFieldDocTitle = fTitle ? fTitle.value : 'Dokumentasi Lapangan';
             localStorage.setItem('bina_marga_gallery_title', cachedGalleryTitle);
             localStorage.setItem('bina_marga_field_doc_title', cachedFieldDocTitle);
+
+            const insightsSetting = settingsRes.data.find(s => s.key === 'insights_data');
+            if (insightsSetting) {
+                cachedInsightsData = JSON.parse(insightsSetting.value);
+                localStorage.setItem(INSIGHTS_STORAGE_KEY, insightsSetting.value);
+            } else {
+                cachedInsightsData = loadInsightsData();
+            }
+
+            const gallery2025Setting = settingsRes.data.find(s => s.key === 'sidebar_gallery_2025_data');
+            if (gallery2025Setting) {
+                cachedGallery2025Data = JSON.parse(gallery2025Setting.value);
+                localStorage.setItem(GALLERY_2025_STORAGE_KEY, gallery2025Setting.value);
+            } else {
+                cachedGallery2025Data = loadGallery2025Data();
+            }
+
+            const galleryLapanganSetting = settingsRes.data.find(s => s.key === 'sidebar_gallery_lapangan_data');
+            if (galleryLapanganSetting) {
+                cachedGalleryLapanganData = JSON.parse(galleryLapanganSetting.value);
+                localStorage.setItem(GALLERY_LAPANGAN_STORAGE_KEY, galleryLapanganSetting.value);
+            } else {
+                cachedGalleryLapanganData = loadGalleryLapanganData();
+            }
+
+            const newsSetting = settingsRes.data.find(s => s.key === 'news_data');
+            if (newsSetting) {
+                cachedNewsData = JSON.parse(newsSetting.value);
+                localStorage.setItem(NEWS_STORAGE_KEY, newsSetting.value);
+            } else {
+                cachedNewsData = loadNewsData();
+            }
         }
 
         console.log("Dashboard data successfully loaded from Supabase.");
@@ -329,6 +499,10 @@ async function loadAllDbData() {
         cachedRekapData = loadRekapDataFromLocalStorage();
         cachedGalleryTitle = localStorage.getItem('bina_marga_gallery_title') || 'Dokumentasi Kegiatan 2025';
         cachedFieldDocTitle = localStorage.getItem('bina_marga_field_doc_title') || 'Dokumentasi Lapangan';
+        cachedInsightsData = loadInsightsData();
+        cachedGallery2025Data = loadGallery2025Data();
+        cachedGalleryLapanganData = loadGalleryLapanganData();
+        cachedNewsData = loadNewsData();
     }
 }
 
@@ -521,7 +695,7 @@ function loadRekapDataFromLocalStorage() {
 
 function saveRekapData(data) {
     cachedRekapData = data;
-    localStorage.setItem(REKAP_STORAGE_KEY, JSON.stringify(data));
+    safeSetLocalStorage(REKAP_STORAGE_KEY, JSON.stringify(data));
     if (supabase) {
         saveRekapDataToSupabase(data);
     }
@@ -791,6 +965,7 @@ function saveModalData(e) {
     saveRekapData(data);
     renderRekapTable();
     closeModalDirect();
+    showToast('Rekapitulasi data berhasil disimpan!', 'success');
 }
 
 // ─── Admin Password Modal Handlers ────────────────────────────────
@@ -859,9 +1034,13 @@ function updateAdminUI() {
             lockIcon.className = 'fa-solid fa-lock';
         }
     }
-    if (typeof renderPortalSection === 'function') {
-        renderPortalSection();
+    if (typeof renderPortalSection === 'function') renderPortalSection();
+    if (typeof renderInsights === 'function') renderInsights();
+    if (typeof renderSidebarGallery === 'function') {
+        renderSidebarGallery('gallery_2025');
+        renderSidebarGallery('gallery_lapangan');
     }
+    if (typeof renderNewsGrid === 'function') renderNewsGrid();
 }
 
 // ─── Summary Cards Edit Modal Handlers ────────────────────────────
@@ -1034,6 +1213,7 @@ function saveCardModalData(e) {
         saveCardsData(data);
         renderSummaryCards();
         closeCardModalDirect();
+        showToast(`Data card tahun ${year} berhasil disimpan!`, 'success');
     }
 }
 
@@ -1364,6 +1544,7 @@ function savePortalModalData(e) {
     savePortalData(data);
     renderPortalSection();
     closePortalModalDirect();
+    showToast('Portal link berhasil disimpan!', 'success');
 }
 
 
@@ -1562,6 +1743,9 @@ function initNavbar() {
 // Lightbox overlay helper for Sidebar Mini-Gallery using Fancybox
 function initGallery() {
     if (typeof Fancybox !== 'undefined') {
+        try {
+            Fancybox.unbind('[data-fancybox]');
+        } catch (e) {}
         Fancybox.bind('[data-fancybox]', {
             Animated: true,
             showClass: "f-fadeIn",
@@ -1837,6 +2021,722 @@ window.openPortalAddModal = openPortalAddModal;
 window.closePortalModal = closePortalModal;
 window.closePortalModalDirect = closePortalModalDirect;
 window.savePortalModalData = savePortalModalData;
+
+// Expose Insight, Sidebar Gallery and News functions
+window.openInsightEditModal = openInsightEditModal;
+window.closeInsightModal = closeInsightModal;
+window.closeInsightModalDirect = closeInsightModalDirect;
+window.saveInsightModalData = saveInsightModalData;
+window.openSidebarGalleryEditModal = openSidebarGalleryEditModal;
+window.openSidebarGalleryAddModal = openSidebarGalleryAddModal;
+window.closeSidebarGalleryModal = closeSidebarGalleryModal;
+window.closeSidebarGalleryModalDirect = closeSidebarGalleryModalDirect;
+window.deleteSidebarGalleryItem = deleteSidebarGalleryItem;
+window.saveSidebarGalleryModalData = saveSidebarGalleryModalData;
+window.openNewsEditModal = openNewsEditModal;
+window.openNewsAddModal = openNewsAddModal;
+window.closeNewsModal = closeNewsModal;
+window.closeNewsModalDirect = closeNewsModalDirect;
+window.deleteNewsItem = deleteNewsItem;
+window.saveNewsModalData = saveNewsModalData;
+window.openManageGalleryModal = openManageGalleryModal;
+window.closeManageGalleryModal = closeManageGalleryModal;
+window.closeManageGalleryModalDirect = closeManageGalleryModalDirect;
+
+// --- New dynamic rendering and handlers ---
+function renderInsights() {
+    const listEl = document.getElementById('insight-list');
+    if (!listEl) return;
+    const data = loadInsightsData();
+    listEl.innerHTML = data.map(item => `
+        <li class="stats-item" style="flex-direction: column; align-items: flex-start; gap: 0.25rem;">
+            <span class="stats-label" style="color: ${item.color}; font-weight: 700; font-size: 0.8rem;">${item.label}</span>
+            <span style="font-size: 0.75rem; line-height: 1.4;">${item.value}</span>
+        </li>
+    `).join('');
+}
+
+function renderSidebarGallery(key) {
+    const containerId = key === 'gallery_2025' ? 'sidebar-gallery-2025' : 'sidebar-gallery-lapangan';
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const data = key === 'gallery_2025' ? loadGallery2025Data() : loadGalleryLapanganData();
+    const fancyboxGroup = key === 'gallery_2025' ? 'gallery-2025' : 'gallery-lapangan';
+    const totalItems = data.length;
+
+    let html = '';
+    data.forEach((item, idx) => {
+        const isVisible = idx < 4;
+        const isLastVisible = idx === 3;
+        const hasMore = totalItems > 4;
+
+        if (isVisible) {
+            html += `
+                <div class="sidebar-gallery-item" data-fancybox="${fancyboxGroup}" data-src="${item.fullImg || item.img}" data-caption="${item.title}">
+                    <img src="${item.img}" alt="${item.title}">
+                    <div class="sidebar-gallery-info">
+                        <span class="sidebar-gallery-title">${item.title}</span>
+                    </div>
+                    ${isLastVisible && hasMore ? `
+                        <div class="sidebar-gallery-item-overlay">
+                            + ${totalItems - 3}
+                        </div>
+                    ` : ''}
+                    <div class="gallery-item-actions admin-only">
+                        <button class="gallery-action-btn edit" onclick="openSidebarGalleryEditModal(event, '${key}', ${idx})" title="Edit Foto">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button class="gallery-action-btn delete" onclick="deleteSidebarGalleryItem(event, '${key}', ${idx})" title="Hapus Foto">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        } else {
+            html += `
+                <a style="display: none;" data-fancybox="${fancyboxGroup}" data-src="${item.fullImg || item.img}" data-caption="${item.title}"></a>
+            `;
+        }
+    });
+
+    if (totalItems === 0) {
+        html = `<div style="grid-column: 1/-1; text-align: center; font-size: 0.75rem; color: var(--text-muted); padding: 1.5rem 0;">Belum ada dokumentasi foto.</div>`;
+    }
+
+    container.innerHTML = html;
+    
+    initGallery();
+}
+
+function renderNewsGrid() {
+    const container = document.getElementById('news-grid');
+    if (!container) return;
+    const data = loadNewsData();
+
+    container.innerHTML = data.map((item, idx) => `
+        <div class="gallery-card reveal active" data-fancybox="gallery-main" data-src="${item.fullImg || item.img}" data-caption="${item.title}: ${item.desc}">
+            <div class="gallery-image-wrapper">
+                <img class="gallery-image" src="${item.img}" alt="${item.title}">
+                <span class="gallery-badge">${item.badge}</span>
+                <div class="news-item-actions admin-only">
+                    <button class="gallery-action-btn edit" onclick="openNewsEditModal(event, ${idx})" title="Edit Berita" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="gallery-action-btn delete" onclick="deleteNewsItem(event, ${idx})" title="Hapus Berita" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="gallery-body">
+                <h3 class="gallery-card-title">${item.title}</h3>
+                <p class="gallery-card-desc">${item.desc}</p>
+            </div>
+        </div>
+    `).join('');
+    
+    initGallery();
+}
+
+function openInsightEditModal() {
+    const overlay = document.getElementById('insight-edit-modal-overlay');
+    if (!overlay) return;
+    const data = loadInsightsData();
+    
+    data.forEach((item, idx) => {
+        const num = idx + 1;
+        const labelInput = document.getElementById(`insight-${num}-label`);
+        const valueInput = document.getElementById(`insight-${num}-value`);
+        if (labelInput) labelInput.value = item.label;
+        if (valueInput) valueInput.value = item.value;
+    });
+    
+    overlay.classList.add('is-open');
+}
+
+function closeInsightModalDirect() {
+    const overlay = document.getElementById('insight-edit-modal-overlay');
+    if (overlay) overlay.classList.remove('is-open');
+}
+
+function closeInsightModal(e) {
+    const overlay = document.getElementById('insight-edit-modal-overlay');
+    if (e.target === overlay) closeInsightModalDirect();
+}
+
+function saveInsightModalData(e) {
+    e.preventDefault();
+    const data = loadInsightsData();
+    
+    data.forEach((item, idx) => {
+        const num = idx + 1;
+        const labelInput = document.getElementById(`insight-${num}-label`);
+        const valueInput = document.getElementById(`insight-${num}-value`);
+        if (labelInput) item.label = labelInput.value.trim();
+        if (valueInput) item.value = valueInput.value.trim();
+    });
+    
+    saveInsightsData(data);
+    renderInsights();
+    closeInsightModalDirect();
+    showToast('Insight infrastruktur berhasil disimpan!', 'success');
+}
+
+function openSidebarGalleryEditModal(e, key, idx) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const fileInput = document.getElementById('sidebar-gallery-file-input');
+    const progress = document.getElementById('sidebar-gallery-upload-progress');
+    if (fileInput) fileInput.value = '';
+    if (progress) {
+        progress.className = 'upload-progress-container';
+        progress.innerHTML = '';
+    }
+    const overlay = document.getElementById('sidebar-gallery-edit-modal-overlay');
+    const modalTitle = document.getElementById('sidebar-gallery-modal-title');
+    const actionInput = document.getElementById('sidebar-gallery-modal-action');
+    const keyInput = document.getElementById('sidebar-gallery-modal-key');
+    const indexInput = document.getElementById('sidebar-gallery-modal-index');
+    const titleInput = document.getElementById('sidebar-gallery-title-input');
+    const imgInput = document.getElementById('sidebar-gallery-img-input');
+    
+    if (!overlay) return;
+    
+    const data = key === 'gallery_2025' ? loadGallery2025Data() : loadGalleryLapanganData();
+    const item = data[idx];
+    if (!item) return;
+    
+    modalTitle.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Edit Gambar Galeri';
+    actionInput.value = 'edit';
+    keyInput.value = key;
+    indexInput.value = idx;
+    titleInput.value = item.title;
+    imgInput.value = item.img;
+    
+    overlay.classList.add('is-open');
+}
+
+function openSidebarGalleryAddModal(key) {
+    const fileInput = document.getElementById('sidebar-gallery-file-input');
+    const progress = document.getElementById('sidebar-gallery-upload-progress');
+    if (fileInput) fileInput.value = '';
+    if (progress) {
+        progress.className = 'upload-progress-container';
+        progress.innerHTML = '';
+    }
+    const overlay = document.getElementById('sidebar-gallery-edit-modal-overlay');
+    const modalTitle = document.getElementById('sidebar-gallery-modal-title');
+    const actionInput = document.getElementById('sidebar-gallery-modal-action');
+    const keyInput = document.getElementById('sidebar-gallery-modal-key');
+    const indexInput = document.getElementById('sidebar-gallery-modal-index');
+    const titleInput = document.getElementById('sidebar-gallery-title-input');
+    const imgInput = document.getElementById('sidebar-gallery-img-input');
+    
+    if (!overlay) return;
+    
+    modalTitle.innerHTML = '<i class="fa-solid fa-plus"></i> Tambah Gambar Galeri';
+    actionInput.value = 'add';
+    keyInput.value = key;
+    indexInput.value = '';
+    titleInput.value = '';
+    imgInput.value = '';
+    
+    overlay.classList.add('is-open');
+}
+
+function closeSidebarGalleryModalDirect() {
+    const overlay = document.getElementById('sidebar-gallery-edit-modal-overlay');
+    if (overlay) overlay.classList.remove('is-open');
+}
+
+function closeSidebarGalleryModal(e) {
+    const overlay = document.getElementById('sidebar-gallery-edit-modal-overlay');
+    if (e.target === overlay) closeSidebarGalleryModalDirect();
+}
+
+function deleteSidebarGalleryItem(e, key, idx) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
+    const data = key === 'gallery_2025' ? loadGallery2025Data() : loadGalleryLapanganData();
+    const item = data[idx];
+    if (!item) return;
+    
+    if (!confirm(`Hapus gambar "${item.title}" dari galeri?`)) return;
+    
+    data.splice(idx, 1);
+    if (key === 'gallery_2025') {
+        saveGallery2025Data(data);
+    } else {
+        saveGalleryLapanganData(data);
+    }
+    renderSidebarGallery(key);
+}
+
+function saveSidebarGalleryModalData(e) {
+    try {
+        e.preventDefault();
+        
+        const action = document.getElementById('sidebar-gallery-modal-action').value;
+        const key = document.getElementById('sidebar-gallery-modal-key').value;
+        const indexVal = document.getElementById('sidebar-gallery-modal-index').value;
+        const title = document.getElementById('sidebar-gallery-title-input').value.trim();
+        const img = document.getElementById('sidebar-gallery-img-input').value.trim();
+        
+        if (!title || !img) {
+            alert('Mohon lengkapi semua data.');
+            return;
+        }
+        
+        const data = key === 'gallery_2025' ? loadGallery2025Data() : loadGalleryLapanganData();
+        
+        if (action === 'add') {
+            data.push({
+                id: 'g-' + Date.now(),
+                title: title,
+                img: img,
+                fullImg: img
+            });
+        } else if (action === 'edit') {
+            const idx = parseInt(indexVal, 10);
+            if (data[idx]) {
+                data[idx].title = title;
+                data[idx].img = img;
+                data[idx].fullImg = img;
+            }
+        }
+        
+        if (key === 'gallery_2025') {
+            saveGallery2025Data(data);
+        } else {
+            saveGalleryLapanganData(data);
+        }
+        
+        renderSidebarGallery(key);
+        closeSidebarGalleryModalDirect();
+        showToast('Gambar galeri berhasil disimpan!', 'success');
+    } catch (err) {
+        console.error("Error saving sidebar gallery item:", err);
+        alert("Gagal menyimpan gambar: " + err.message);
+    }
+}
+
+function openNewsEditModal(e, idx) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const fileInput = document.getElementById('news-file-input');
+    const progress = document.getElementById('news-upload-progress');
+    if (fileInput) fileInput.value = '';
+    if (progress) {
+        progress.className = 'upload-progress-container';
+        progress.innerHTML = '';
+    }
+    const overlay = document.getElementById('news-edit-modal-overlay');
+    const modalTitle = document.getElementById('news-modal-title');
+    const actionInput = document.getElementById('news-modal-action');
+    const indexInput = document.getElementById('news-modal-index');
+    const titleInput = document.getElementById('news-title-input');
+    const descInput = document.getElementById('news-desc-input');
+    const imgInput = document.getElementById('news-img-input');
+    const badgeSelect = document.getElementById('news-badge-select');
+    
+    if (!overlay) return;
+    
+    const data = loadNewsData();
+    const item = data[idx];
+    if (!item) return;
+    
+    modalTitle.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Edit Berita Kegiatan';
+    actionInput.value = 'edit';
+    indexInput.value = idx;
+    titleInput.value = item.title;
+    descInput.value = item.desc;
+    imgInput.value = item.img;
+    badgeSelect.value = item.badge;
+    
+    overlay.classList.add('is-open');
+}
+
+function openNewsAddModal() {
+    const fileInput = document.getElementById('news-file-input');
+    const progress = document.getElementById('news-upload-progress');
+    if (fileInput) fileInput.value = '';
+    if (progress) {
+        progress.className = 'upload-progress-container';
+        progress.innerHTML = '';
+    }
+    const overlay = document.getElementById('news-edit-modal-overlay');
+    const modalTitle = document.getElementById('news-modal-title');
+    const actionInput = document.getElementById('news-modal-action');
+    const indexInput = document.getElementById('news-modal-index');
+    const titleInput = document.getElementById('news-title-input');
+    const descInput = document.getElementById('news-desc-input');
+    const imgInput = document.getElementById('news-img-input');
+    const badgeSelect = document.getElementById('news-badge-select');
+    
+    if (!overlay) return;
+    
+    modalTitle.innerHTML = '<i class="fa-solid fa-plus"></i> Tambah Berita Kegiatan';
+    actionInput.value = 'add';
+    indexInput.value = '';
+    titleInput.value = '';
+    descInput.value = '';
+    imgInput.value = '';
+    badgeSelect.value = 'Konstruksi';
+    
+    overlay.classList.add('is-open');
+}
+
+function closeNewsModalDirect() {
+    const overlay = document.getElementById('news-edit-modal-overlay');
+    if (overlay) overlay.classList.remove('is-open');
+}
+
+function closeNewsModal(e) {
+    const overlay = document.getElementById('news-edit-modal-overlay');
+    if (e.target === overlay) closeNewsModalDirect();
+}
+
+function deleteNewsItem(e, idx) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
+    const data = loadNewsData();
+    const item = data[idx];
+    if (!item) return;
+    
+    if (!confirm(`Hapus berita "${item.title}"?`)) return;
+    
+    data.splice(idx, 1);
+    saveNewsData(data);
+    renderNewsGrid();
+}
+
+function saveNewsModalData(e) {
+    try {
+        e.preventDefault();
+        
+        const action = document.getElementById('news-modal-action').value;
+        const indexVal = document.getElementById('news-modal-index').value;
+        const title = document.getElementById('news-title-input').value.trim();
+        const desc = document.getElementById('news-desc-input').value.trim();
+        const img = document.getElementById('news-img-input').value.trim();
+        const badge = document.getElementById('news-badge-select').value;
+        
+        if (!title || !desc || !img || !badge) {
+            alert('Mohon lengkapi semua data.');
+            return;
+        }
+        
+        const data = loadNewsData();
+        
+        if (action === 'add') {
+            data.push({
+                id: 'news-' + Date.now(),
+                badge: badge,
+                title: title,
+                desc: desc,
+                img: img,
+                fullImg: img
+            });
+        } else if (action === 'edit') {
+            const idx = parseInt(indexVal, 10);
+            if (data[idx]) {
+                data[idx].badge = badge;
+                data[idx].title = title;
+                data[idx].desc = desc;
+                data[idx].img = img;
+                data[idx].fullImg = img;
+            }
+        }
+        
+        saveNewsData(data);
+        renderNewsGrid();
+        closeNewsModalDirect();
+        showToast('Berita kegiatan berhasil disimpan!', 'success');
+    } catch (err) {
+        console.error("Error saving news item:", err);
+        alert("Gagal menyimpan berita: " + err.message);
+    }
+}
+
+async function uploadImageToSupabase(file) {
+    if (!supabase) {
+        console.warn("Supabase tidak aktif. Menggunakan konversi Base64 offline dengan kompresi.");
+        try {
+            const compressedBase64 = await compressImage(file);
+            return compressedBase64;
+        } catch (err) {
+            console.error("Gagal mengompresi gambar, menggunakan fallback Base64 original:", err);
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = (error) => reject(new Error("Gagal membaca file gambar lokal."));
+                reader.readAsDataURL(file);
+            });
+        }
+    }
+    
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+    const filePath = `uploads/${fileName}`;
+
+    const { data, error } = await supabase.storage
+        .from('gallery-images')
+        .upload(filePath, file, {
+            cacheControl: '3600',
+            upsert: false
+        });
+
+    if (error) throw error;
+
+    const { data: publicUrlData } = supabase.storage
+        .from('gallery-images')
+        .getPublicUrl(filePath);
+
+    if (!publicUrlData || !publicUrlData.publicUrl) {
+        throw new Error("Gagal mengambil URL publik gambar.");
+    }
+
+    return publicUrlData.publicUrl;
+}
+
+function setupImageUploadListeners() {
+    // 1. Sidebar Gallery Upload Listener
+    const sidebarFileInput = document.getElementById('sidebar-gallery-file-input');
+    const sidebarProgress = document.getElementById('sidebar-gallery-upload-progress');
+    const sidebarUrlInput = document.getElementById('sidebar-gallery-img-input');
+    const sidebarModalForm = document.getElementById('sidebar-gallery-modal-form');
+    const sidebarSaveBtn = sidebarModalForm ? sidebarModalForm.querySelector('.modal-save-btn') : null;
+
+    if (sidebarFileInput) {
+        sidebarFileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (sidebarProgress) {
+                sidebarProgress.className = 'upload-progress-container loading';
+                sidebarProgress.innerHTML = '<span class="upload-spinner"></span> <span>Mengunggah ke Supabase Storage...</span>';
+            }
+            if (sidebarSaveBtn) sidebarSaveBtn.disabled = true;
+
+            try {
+                const publicUrl = await uploadImageToSupabase(file);
+                
+                if (sidebarProgress) {
+                    sidebarProgress.className = 'upload-progress-container success';
+                    if (!supabase) {
+                        sidebarProgress.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--pupr-yellow);"></i> <span style="color: var(--pupr-yellow);">Konversi Base64 offline berhasil!</span>';
+                    } else {
+                        sidebarProgress.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>Berhasil diunggah!</span>';
+                    }
+                }
+                if (sidebarUrlInput) {
+                    sidebarUrlInput.value = publicUrl;
+                }
+            } catch (err) {
+                console.error("Gagal mengunggah gambar:", err);
+                if (sidebarProgress) {
+                    sidebarProgress.className = 'upload-progress-container error';
+                    sidebarProgress.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> <span>Gagal: ${err.message}</span>`;
+                }
+            } finally {
+                if (sidebarSaveBtn) sidebarSaveBtn.disabled = false;
+            }
+        });
+    }
+
+    // 2. News Upload Listener
+    const newsFileInput = document.getElementById('news-file-input');
+    const newsProgress = document.getElementById('news-upload-progress');
+    const newsUrlInput = document.getElementById('news-img-input');
+    const newsModalForm = document.getElementById('news-modal-form');
+    const newsSaveBtn = newsModalForm ? newsModalForm.querySelector('.modal-save-btn') : null;
+
+    if (newsFileInput) {
+        newsFileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (newsProgress) {
+                newsProgress.className = 'upload-progress-container loading';
+                newsProgress.innerHTML = '<span class="upload-spinner"></span> <span>Mengunggah ke Supabase Storage...</span>';
+            }
+            if (newsSaveBtn) newsSaveBtn.disabled = true;
+
+            try {
+                const publicUrl = await uploadImageToSupabase(file);
+                
+                if (newsProgress) {
+                    newsProgress.className = 'upload-progress-container success';
+                    if (!supabase) {
+                        newsProgress.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--pupr-yellow);"></i> <span style="color: var(--pupr-yellow);">Konversi Base64 offline berhasil!</span>';
+                    } else {
+                        newsProgress.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>Berhasil diunggah!</span>';
+                    }
+                }
+                if (newsUrlInput) {
+                    newsUrlInput.value = publicUrl;
+                }
+            } catch (err) {
+                console.error("Gagal mengunggah gambar:", err);
+                if (newsProgress) {
+                    newsProgress.className = 'upload-progress-container error';
+                    newsProgress.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> <span>Gagal: ${err.message}</span>`;
+                }
+            } finally {
+                if (newsSaveBtn) newsSaveBtn.disabled = false;
+            }
+        });
+    }
+}
+
+function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.7) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width = Math.round((width * maxHeight) / height);
+                        height = maxHeight;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                resolve(dataUrl);
+            };
+            img.onerror = () => reject(new Error("Gagal memuat elemen gambar untuk kompresi."));
+            img.src = e.target.result;
+        };
+        reader.onerror = () => reject(new Error("Gagal membaca file gambar."));
+        reader.readAsDataURL(file);
+    });
+}
+
+function openManageGalleryModal(key) {
+    const overlay = document.getElementById('manage-gallery-modal-overlay');
+    const listContainer = document.getElementById('manage-gallery-list');
+    const titleEl = document.getElementById('manage-gallery-modal-title');
+    const addShortcutBtn = document.getElementById('manage-gallery-add-shortcut-btn');
+    
+    if (!overlay || !listContainer) return;
+    
+    const data = key === 'gallery_2025' ? loadGallery2025Data() : loadGalleryLapanganData();
+    const galleryName = key === 'gallery_2025' ? 'Dokumentasi Kegiatan 2025' : 'Dokumentasi Lapangan';
+    
+    titleEl.innerHTML = `<i class="fa-solid fa-images"></i> Kelola ${galleryName}`;
+    
+    listContainer.innerHTML = data.map((item, idx) => `
+        <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.02); padding: 0.5rem 0.75rem; border-radius: 10px; border: 1px solid var(--card-border);">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <img src="${item.img}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid var(--card-border);">
+                <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-primary); text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 250px;">${item.title}</span>
+            </div>
+            <div style="display: flex; gap: 0.35rem;">
+                <button class="gallery-action-btn edit" onclick="closeManageGalleryModalDirect(); openSidebarGalleryEditModal(null, '${key}', ${idx});" title="Edit Foto" style="position: static; opacity: 1;">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="gallery-action-btn delete" onclick="deleteSidebarGalleryItem(null, '${key}', ${idx}); openManageGalleryModal('${key}');" title="Hapus Foto" style="position: static; opacity: 1;">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+    
+    if (data.length === 0) {
+        listContainer.innerHTML = `<div style="text-align: center; font-size: 0.75rem; color: var(--text-muted); padding: 1.5rem 0;">Belum ada foto di galeri ini.</div>`;
+    }
+    
+    if (addShortcutBtn) {
+        addShortcutBtn.onclick = () => {
+            closeManageGalleryModalDirect();
+            openSidebarGalleryAddModal(key);
+        };
+    }
+    
+    overlay.classList.add('is-open');
+}
+
+function closeManageGalleryModalDirect() {
+    const overlay = document.getElementById('manage-gallery-modal-overlay');
+    if (overlay) overlay.classList.remove('is-open');
+}
+
+function closeManageGalleryModal(e) {
+    const overlay = document.getElementById('manage-gallery-modal-overlay');
+    if (e.target === overlay) closeManageGalleryModalDirect();
+}
+
+function showToast(message, type = 'success') {
+    let toastContainer = document.getElementById('custom-toast-container');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'custom-toast-container';
+        toastContainer.style.cssText = `
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            z-index: 9999;
+            pointer-events: none;
+        `;
+        document.body.appendChild(toastContainer);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `custom-toast ${type}`;
+    
+    const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
+    const color = type === 'success' ? 'var(--success)' : 'var(--error)';
+    
+    toast.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 0.75rem; background: rgba(13, 13, 20, 0.95); border: 1px solid var(--card-border); padding: 0.85rem 1.25rem; border-radius: 12px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); pointer-events: auto; animation: toast-in 0.3s ease forwards;">
+            <i class="fa-solid ${icon}" style="color: ${color}; font-size: 1rem;"></i>
+            <span style="color: var(--text-primary); font-size: 0.85rem; font-weight: 500; font-family: inherit;">${message}</span>
+        </div>
+    `;
+
+    toastContainer.appendChild(toast);
+
+    setTimeout(() => {
+        const inner = toast.querySelector('div');
+        if (inner) {
+            inner.style.animation = 'toast-out 0.3s ease forwards';
+        }
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, 3000);
+}
+
+window.showToast = showToast;
 
 
 
