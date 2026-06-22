@@ -694,6 +694,9 @@ body.loaded .gauge-progress {
     font-weight: 600;
     box-shadow: var(--shadow-pill);
     transition: var(--transition);
+    gap: 0.75rem;
+    width: 100%;
+    min-width: 0;
 }
 
 .pill-button:hover {
@@ -708,12 +711,21 @@ body.loaded .gauge-progress {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.pill-button-content span {
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.3;
 }
 
 .pill-button-icon {
     font-size: 1rem;
     color: var(--pupr-yellow);
     transition: var(--transition);
+    flex-shrink: 0;
 }
 
 .pill-button:hover .pill-button-icon {
@@ -724,6 +736,7 @@ body.loaded .gauge-progress {
     font-size: 0.75rem;
     opacity: 0.6;
     transition: var(--transition);
+    flex-shrink: 0;
 }
 
 .pill-button:hover .pill-arrow {
@@ -2626,6 +2639,15 @@ body.admin-locked .admin-only {
     .dashboard-grid {
         gap: 1.25rem;
     }
+    /* Unified padding for all cards on mobile */
+    .summary-card, .sidebar-card, .year-group {
+        padding: 1.25rem !important;
+    }
+    /* Pill button responsiveness on mobile */
+    .pill-button {
+        padding: 0.75rem 1.1rem;
+        font-size: 0.8rem;
+    }
     /* Mobile stack layout for summary/statistic cards */
     .summary-card-body {
         grid-template-columns: 1fr !important;
@@ -2652,10 +2674,6 @@ body.admin-locked .admin-only {
     }
     .mobile-gauge-bar {
         display: none !important;
-    }
-    /* Unified padding for all cards on mobile */
-    .summary-card, .sidebar-card, .year-group {
-        padding: 1.25rem !important;
     }
 }
 
