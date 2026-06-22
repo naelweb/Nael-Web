@@ -230,20 +230,19 @@ header.scrolled .brand-logo-img {
 @media (min-width: 1024px) {
     .dashboard-grid {
         grid-template-columns: 2.1fr 1fr;
+        grid-template-areas:
+            "summary gallery-2025"
+            "portal insight"
+            "portal field-doc";
     }
+    .summary-grid { grid-area: summary; }
+    #gallery-2025 { grid-area: gallery-2025; }
+    #field-doc { grid-area: field-doc; }
+    #insight { grid-area: insight; }
+    #data-hub { grid-area: portal; }
 }
 
-.main-column {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.sidebar-column {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
+/* Column classes removed for flat grid layout */
 
 /* Zone A: Summary Cards */
 .summary-grid {
@@ -252,7 +251,7 @@ header.scrolled .brand-logo-img {
     gap: 1.5rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
     .summary-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -668,7 +667,7 @@ body.loaded .gauge-progress {
     gap: 0.75rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
     .button-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -874,7 +873,7 @@ body.loaded .gauge-progress {
     gap: 1.5rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
     .gallery-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -1999,7 +1998,7 @@ body.admin-locked .card-edit-btn {
 /* Sidebar Mini Gallery */
 .sidebar-gallery {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 0.75rem;
     margin-top: 0.75rem;
 }
@@ -2574,6 +2573,75 @@ body.admin-locked .admin-only {
     to {
         opacity: 0;
         transform: translateY(20px) scale(0.95);
+    }
+}
+
+/* ─── Responsive Layout Audit Adjustments ──────────────────────── */
+@media (max-width: 1024px) {
+    .container {
+        padding: 1.25rem 1rem;
+        gap: 1.5rem;
+    }
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    /* Grid ordering for tablet/mobile viewports */
+    .summary-grid {
+        order: 1;
+    }
+    #gallery-2025 {
+        order: 2;
+    }
+    #field-doc {
+        order: 3;
+    }
+    #insight {
+        order: 4;
+    }
+    #data-hub {
+        order: 5;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem 0.75rem;
+        gap: 1.25rem;
+    }
+    .dashboard-grid {
+        gap: 1.25rem;
+    }
+    /* Mobile stack layout for summary/statistic cards */
+    .summary-card-body {
+        grid-template-columns: 1fr !important;
+        justify-items: center !important;
+        text-align: center !important;
+        gap: 1rem !important;
+    }
+    .card-details-wrapper {
+        align-items: stretch !important;
+        width: 100% !important;
+    }
+    .card-detail-row {
+        justify-content: space-between !important;
+        width: 100% !important;
+    }
+    .card-metric-box {
+        align-items: center !important;
+        width: 100% !important;
+    }
+    .gauge-container {
+        display: flex !important;
+        flex-shrink: 0;
+        margin: 0 auto;
+    }
+    .mobile-gauge-bar {
+        display: none !important;
+    }
+    /* Unified padding for all cards on mobile */
+    .summary-card, .sidebar-card, .year-group {
+        padding: 1.25rem !important;
     }
 }
 
