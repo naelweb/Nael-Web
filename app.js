@@ -2490,7 +2490,7 @@ async function uploadImageToSupabase(file) {
     const filePath = `uploads/${fileName}`;
 
     const { data, error } = await supabase.storage
-        .from('gallery-images')
+        .from('GALLERY-IMAGES')
         .upload(filePath, file, {
             cacheControl: '3600',
             upsert: false
@@ -2499,7 +2499,7 @@ async function uploadImageToSupabase(file) {
     if (error) throw error;
 
     const { data: publicUrlData } = supabase.storage
-        .from('gallery-images')
+        .from('GALLERY-IMAGES')
         .getPublicUrl(filePath);
 
     if (!publicUrlData || !publicUrlData.publicUrl) {
