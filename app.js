@@ -1621,18 +1621,48 @@ function initNavbar() {
     setTimeout(recalculateSectionPositions, 1200);
     setTimeout(recalculateSectionPositions, 2800);
 
-    // Sticky Scroll Effect with state check to avoid redundant classList calls
+    // Sticky Scroll Effect with smart hide-on-scroll-down / show-on-scroll-up
     if (headerEl) {
         let isScrolled = false;
+        let lastScrollY = window.scrollY;
+        let scrollTicking = false;
+ 
         window.addEventListener('scroll', () => {
-            const shouldScroll = window.scrollY > 40;
-            if (shouldScroll !== isScrolled) {
-                isScrolled = shouldScroll;
-                if (isScrolled) {
-                    headerEl.classList.add('scrolled');
-                } else {
-                    headerEl.classList.remove('scrolled');
-                }
+            if (!scrollTicking) {
+                window.requestAnimationFrame(() => {
+                    const currentScrollY = Math.max(0, window.scrollY);
+                    const diff = currentScrollY - lastScrollY;
+ 
+                    // 1. Sticky Class toggle
+                    const shouldScroll = currentScrollY > 40;
+                    if (shouldScroll !== isScrolled) {
+                        isScrolled = shouldScroll;
+                        if (isScrolled) {
+                            headerEl.classList.add('scrolled');
+                        } else {
+                            headerEl.classList.remove('scrolled');
+                        }
+                    }
+ 
+                    // 2. Hide / Show on Scroll Direction
+                    // Jitter threshold of 5px
+                    if (Math.abs(diff) >= 5) {
+                        if (currentScrollY < 80) {
+                            headerEl.classList.remove('header-hidden');
+                        } else if (currentScrollY > lastScrollY) {
+                            // Scrolling Down: Hide if mobile menu is not active
+                            if (!headerEl.classList.contains('mobile-nav-active')) {
+                                headerEl.classList.add('header-hidden');
+                            }
+                        } else {
+                            // Scrolling Up: Show
+                            headerEl.classList.remove('header-hidden');
+                        }
+                        lastScrollY = currentScrollY;
+                    }
+                    scrollTicking = false;
+                });
+                scrollTicking = true;
             }
         }, { passive: true });
     }
@@ -1770,6 +1800,34 @@ function initNavbar() {
     }
 
     updateAdminUI();
+}
+
+// Lazy loading images helper using Intersection Observer
+function initLazyLoading() {
+    const lazyImages = document.querySelectorAll('img.lazy-image');
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const image = entry.target;
+                    image.src = image.dataset.src;
+                    image.classList.remove('lazy-image');
+                    image.classList.add('lazy-loaded');
+                    imageObserver.unobserve(image);
+                }
+            });
+        }, {
+            rootMargin: '100px 0px 200px 0px'
+        });
+
+        lazyImages.forEach(image => {
+            imageObserver.observe(image);
+        });
+    } else {
+        lazyImages.forEach(image => {
+            image.src = image.dataset.src;
+        });
+    }
 }
 
 // Lightbox overlay helper for Sidebar Mini-Gallery using GLightbox
@@ -2103,7 +2161,7 @@ function renderSidebarGallery(key) {
         if (isVisible) {
             html += `
                 <div class="sidebar-gallery-item glightbox" data-gallery="${galleryGroup}" data-type="image" data-href="${item.fullImg || item.img}" data-title="${item.title}">
-                    <img src="${item.img}" alt="${item.title}">
+                    <img class="lazy-image" data-src="${item.img}" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox%3D'0 0 4 3'%2F%3E" alt="${item.title}" loading="lazy">
                     <div class="sidebar-gallery-info">
                         <span class="sidebar-gallery-title">${item.title}</span>
                     </div>
@@ -2136,6 +2194,7 @@ function renderSidebarGallery(key) {
     container.innerHTML = html;
     
     initGallery();
+    initLazyLoading();
 }
 
 function renderNewsGrid() {
@@ -2146,7 +2205,7 @@ function renderNewsGrid() {
     container.innerHTML = data.map((item, idx) => `
         <div class="gallery-card reveal active glightbox" data-gallery="gallery-main" data-type="image" data-href="${item.fullImg || item.img}" data-title="${item.title}" data-description="${item.desc}">
             <div class="gallery-image-wrapper">
-                <img class="gallery-image" src="${item.img}" alt="${item.title}">
+                <img class="gallery-image lazy-image" data-src="${item.img}" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox%3D'0 0 16 9'%2F%3E" alt="${item.title}" loading="lazy">
                 <span class="gallery-badge">${item.badge}</span>
                 <div class="news-item-actions admin-only">
                     <button class="gallery-action-btn edit" onclick="openNewsEditModal(event, ${idx})" title="Edit Berita" style="width: 30px; height: 30px; font-size: 0.8rem;">
@@ -2165,6 +2224,7 @@ function renderNewsGrid() {
     `).join('');
     
     initGallery();
+    initLazyLoading();
 }
 
 function openInsightEditModal() {

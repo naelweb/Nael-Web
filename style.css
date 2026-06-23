@@ -142,8 +142,9 @@ header {
                 padding 0.25s cubic-bezier(0.16, 1, 0.3, 1),
                 border-bottom-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
                 box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                border-radius 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: padding, background-color, backdrop-filter, box-shadow;
+                border-radius 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: padding, background-color, backdrop-filter, box-shadow, transform;
 }
 
 header.scrolled {
@@ -154,6 +155,10 @@ header.scrolled {
     border-bottom-color: var(--card-border);
     box-shadow: var(--shadow-hover);
     border-radius: 0 0 16px 16px;
+}
+
+header.header-hidden {
+    transform: translateY(-100%);
 }
 
 .brand-wrapper {
@@ -234,7 +239,7 @@ header.scrolled .brand-logo-img {
     gap: 2rem;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
     .dashboard-grid {
         grid-template-columns: 2.1fr 1fr;
         grid-template-areas:
@@ -899,7 +904,7 @@ body.loaded .gauge-progress {
     }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
     .gallery-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -1663,7 +1668,15 @@ body.admin-locked .card-edit-btn {
         margin-left: -0.75rem;
         margin-right: -0.75rem;
         padding: 1rem 0.75rem;
-        transition: z-index 0s, padding 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: z-index 0s, 
+                    padding 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                    background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    backdrop-filter 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    -webkit-backdrop-filter 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    border-radius 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    border-bottom-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     header.mobile-nav-active {
@@ -2412,7 +2425,7 @@ body.loading {
 
 body.loaded .container {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: none;
 }
 
 /* Helper class for admin only elements */
@@ -2599,7 +2612,7 @@ body.admin-locked .admin-only {
 }
 
 /* ─── Responsive Layout Audit Adjustments ──────────────────────── */
-@media (max-width: 1024px) {
+@media (max-width: 1279px) {
     .container {
         padding: 1.25rem 1rem;
         gap: 1.5rem;
@@ -2613,7 +2626,7 @@ body.admin-locked .admin-only {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
-    /* Grid ordering for tablet/mobile viewports */
+    /* Grid ordering for tablet/mobile viewports when stacked */
     .summary-grid {
         order: 1;
     }
@@ -2628,6 +2641,49 @@ body.admin-locked .admin-only {
     }
     #data-hub {
         order: 5;
+    }
+}
+
+/* Tablet Specific Layout (768px - 1279px) */
+@media (min-width: 768px) and (max-width: 1279px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: none;
+        display: grid;
+        gap: 1.5rem;
+    }
+    
+    .summary-grid, #data-hub, #insight {
+        grid-column: 1 / span 2;
+    }
+    
+    #portal-groups-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+    
+    #gallery-2025, #field-doc {
+        grid-column: span 1;
+    }
+    
+    .stats-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+        margin-top: 0.75rem;
+    }
+    
+    .stats-item {
+        border-bottom: none !important;
+        border-right: 1px dashed rgba(255, 255, 255, 0.05);
+        padding-bottom: 0 !important;
+        padding-right: 0.75rem;
+    }
+    
+    .stats-item:last-child {
+        border-right: none;
+        padding-right: 0;
     }
 }
 

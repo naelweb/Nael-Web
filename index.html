@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portal Integrasi Data dan Pelaporan Kegiatan Bidang Bina Marga Dinas Pekerjaan Umum Penataan Ruang Provinsi Kalimantan Timur.">
     <title>Portal Integrasi Bidang Jalan & Jembatan - PUPR</title>
     <!-- Geist & Geist Mono Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -96,7 +97,7 @@
                     <li><a href="#projects" class="nav-link"><i class="fa-solid fa-road"></i> Projects</a></li>
                     <li><a href="#gallery" class="nav-link"><i class="fa-solid fa-images"></i> Gallery</a></li>
                     <li class="admin-menu-item">
-                        <button id="admin-lock-btn" class="admin-lock-btn" title="Mode Admin Terkunci">
+                        <button id="admin-lock-btn" class="admin-lock-btn" title="Mode Admin Terkunci" aria-label="Mode Admin Terkunci">
                             <i class="fa-solid fa-lock"></i>
                         </button>
                     </li>
@@ -123,7 +124,7 @@
                 <section class="summary-grid" aria-label="Dashboard Summary TA 2026">
                     <!-- Card 1: Tahun 2025 -->
                     <div class="summary-card reveal" id="card-jalan-2025">
-                        <button class="card-edit-btn col-act" onclick="openCardEditModal(2025)" title="Edit Data Summary 2025">
+                        <button class="card-edit-btn col-act" onclick="openCardEditModal(2025)" title="Edit Data Summary 2025" aria-label="Edit Data Summary 2025">
                             <i class="fa-solid fa-pen"></i>
                         </button>
                         <div class="summary-card-header">
@@ -172,7 +173,7 @@
 
                     <!-- Card 2: Tahun 2026 -->
                     <div class="summary-card reveal" id="card-jalan-2026">
-                        <button class="card-edit-btn col-act" onclick="openCardEditModal(2026)" title="Edit Data Summary 2026">
+                        <button class="card-edit-btn col-act" onclick="openCardEditModal(2026)" title="Edit Data Summary 2026" aria-label="Edit Data Summary 2026">
                             <i class="fa-solid fa-pen"></i>
                         </button>
                         <div class="summary-card-header">
@@ -259,7 +260,7 @@
                     <h3 class="sidebar-card-title">
                         <i class="fa-solid fa-lightbulb"></i>
                         <span>Insight Infrastruktur Kaltim</span>
-                        <button class="gallery-title-edit-btn admin-only" onclick="openInsightEditModal()" title="Edit Insight" style="margin-left: auto;">
+                        <button class="gallery-title-edit-btn admin-only" onclick="openInsightEditModal()" title="Edit Insight" style="margin-left: auto;" aria-label="Edit Insight Kaltim">
                             <i class="fa-solid fa-pen"></i>
                         </button>
                     </h3>
@@ -350,7 +351,7 @@
                         <i class="fa-solid fa-pen-to-square"></i>
                         Edit Data
                     </h3>
-                    <button class="modal-close-btn" onclick="closeModalDirect()">
+                    <button class="modal-close-btn" onclick="closeModalDirect()" aria-label="Tutup Modal">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -395,7 +396,7 @@
                         <i class="fa-solid fa-circle-info"></i>
                         Rincian Sub Kegiatan
                     </h3>
-                    <button class="modal-close-btn" onclick="closeDetailModalDirect()">
+                    <button class="modal-close-btn" onclick="closeDetailModalDirect()" aria-label="Tutup Modal Rincian">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -457,7 +458,7 @@
                         <i class="fa-solid fa-shield-halved"></i>
                         Verifikasi Admin
                     </h3>
-                    <button class="modal-close-btn" onclick="closeAdminPasswordModalDirect()">
+                    <button class="modal-close-btn" onclick="closeAdminPasswordModalDirect()" aria-label="Tutup Modal Verifikasi Admin">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -488,7 +489,7 @@
                         <i class="fa-solid fa-pen-to-square"></i>
                         Edit Data Summary 2025
                     </h3>
-                    <button class="modal-close-btn" onclick="closeCardModalDirect()">
+                    <button class="modal-close-btn" onclick="closeCardModalDirect()" aria-label="Tutup Modal Edit Card">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -535,7 +536,7 @@
                         <i class="fa-solid fa-pen-to-square"></i>
                         Tambah Button Portal
                     </h3>
-                    <button class="modal-close-btn" onclick="closePortalModalDirect()">
+                    <button class="modal-close-btn" onclick="closePortalModalDirect()" aria-label="Tutup Modal Edit Portal">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -585,7 +586,7 @@
                         <i class="fa-solid fa-pen-to-square"></i>
                         Edit Insight Infrastruktur
                     </h3>
-                    <button class="modal-close-btn" onclick="closeInsightModalDirect()">
+                    <button class="modal-close-btn" onclick="closeInsightModalDirect()" aria-label="Tutup Modal Edit Insight">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -653,7 +654,7 @@
                         <i class="fa-solid fa-pen-to-square"></i>
                         Tambah/Edit Foto Galeri
                     </h3>
-                    <button class="modal-close-btn" onclick="closeSidebarGalleryModalDirect()">
+                    <button class="modal-close-btn" onclick="closeSidebarGalleryModalDirect()" aria-label="Tutup Modal Edit Foto">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -695,7 +696,7 @@
                         <i class="fa-solid fa-pen-to-square"></i>
                         Tambah/Edit Berita Kegiatan
                     </h3>
-                    <button class="modal-close-btn" onclick="closeNewsModalDirect()">
+                    <button class="modal-close-btn" onclick="closeNewsModalDirect()" aria-label="Tutup Modal Edit Berita">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -750,7 +751,7 @@
                         <i class="fa-solid fa-images"></i>
                         Kelola Foto Galeri
                     </h3>
-                    <button class="modal-close-btn" onclick="closeManageGalleryModalDirect()">
+                    <button class="modal-close-btn" onclick="closeManageGalleryModalDirect()" aria-label="Tutup Modal Kelola Galeri">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
