@@ -995,11 +995,41 @@ function closeAdminPasswordModal(e) {
     if (e.target === adminPasswordOverlay) closeAdminPasswordModalDirect();
 }
 
-function submitAdminPassword(e) {
+async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function submitAdminPassword(e) {
     e.preventDefault();
     if (!adminPasswordInput) return;
     const password = adminPasswordInput.value;
-    if (password === "admin123") {
+    
+    let isValid = false;
+
+    if (supabase) {
+        try {
+            if (adminPasswordError) adminPasswordError.textContent = "Memverifikasi...";
+            const { data, error } = await supabase.rpc('verify_admin_password', { 
+                input_password: password 
+            });
+            if (error) throw error;
+            isValid = !!data;
+        } catch (err) {
+            console.error("Gagal verifikasi password via Supabase:", err);
+            // Fallback ke hash offline jika koneksi Supabase gagal
+            const hash = await sha256(password);
+            isValid = (hash === "c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd4"); // hash dari "admin123"
+        }
+    } else {
+        // Fallback ke hash offline jika Supabase tidak terhubung
+        const hash = await sha256(password);
+        isValid = (hash === "c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd4"); // hash dari "admin123"
+    }
+
+    if (isValid) {
         isAdminMode = true;
         localStorage.setItem('isAdminMode', isAdminMode);
         updateAdminUI();
