@@ -1782,6 +1782,9 @@ function initGallery() {
             Animated: true,
             showClass: "f-fadeIn",
             hideClass: "f-fadeOut",
+            Images: {
+                initialSize: "fit", // Memastikan gambar selalu pas dengan layar di semua perangkat
+            },
             Toolbar: {
                 display: {
                     left: ["infobar"],
@@ -2105,7 +2108,7 @@ function renderSidebarGallery(key) {
 
         if (isVisible) {
             html += `
-                <div class="sidebar-gallery-item" data-fancybox="${fancyboxGroup}" data-src="${item.fullImg || item.img}" data-caption="${item.title}">
+                <div class="sidebar-gallery-item" data-fancybox="${fancyboxGroup}" data-type="image" data-src="${item.fullImg || item.img}" data-caption="${item.title}">
                     <img src="${item.img}" alt="${item.title}">
                     <div class="sidebar-gallery-info">
                         <span class="sidebar-gallery-title">${item.title}</span>
@@ -2127,7 +2130,7 @@ function renderSidebarGallery(key) {
             `;
         } else {
             html += `
-                <a style="display: none;" data-fancybox="${fancyboxGroup}" data-src="${item.fullImg || item.img}" data-caption="${item.title}"></a>
+                <a style="display: none;" data-fancybox="${fancyboxGroup}" data-type="image" data-src="${item.fullImg || item.img}" data-caption="${item.title}"></a>
             `;
         }
     });
@@ -2147,7 +2150,7 @@ function renderNewsGrid() {
     const data = loadNewsData();
 
     container.innerHTML = data.map((item, idx) => `
-        <div class="gallery-card reveal active" data-fancybox="gallery-main" data-src="${item.fullImg || item.img}" data-caption="${item.title}: ${item.desc}">
+        <div class="gallery-card reveal active" data-fancybox="gallery-main" data-type="image" data-src="${item.fullImg || item.img}" data-caption="${item.title}: ${item.desc}">
             <div class="gallery-image-wrapper">
                 <img class="gallery-image" src="${item.img}" alt="${item.title}">
                 <span class="gallery-badge">${item.badge}</span>

@@ -2677,3 +2677,35 @@ body.admin-locked .admin-only {
     }
 }
 
+/* ─── Fancybox Mobile Responsive & Centering Fix ─── */
+.fancybox__container {
+    z-index: 99999 !important;
+}
+
+.fancybox__slide {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px 10px !important;
+    box-sizing: border-box !important;
+}
+
+.fancybox__content {
+    max-width: 100% !important;
+    height: auto !important;
+    margin: auto !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.fancybox-image,
+.fancybox__image {
+    max-width: 100% !important;
+    max-height: 80vh !important;
+    height: auto !important;
+    width: auto !important;
+    object-fit: contain !important;
+}
+
