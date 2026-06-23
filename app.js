@@ -1782,6 +1782,7 @@ function initGallery() {
             Animated: true,
             showClass: "f-fadeIn",
             hideClass: "f-fadeOut",
+            compact: false, // Menonaktifkan mode compact seluler agar centering tetap stabil di mobile
             Images: {
                 initialSize: "fit", // Memastikan gambar selalu pas dengan layar di semua perangkat
             },
