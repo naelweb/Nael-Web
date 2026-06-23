@@ -1772,27 +1772,20 @@ function initNavbar() {
     updateAdminUI();
 }
 
-// Lightbox overlay helper for Sidebar Mini-Gallery using Fancybox
+// Lightbox overlay helper for Sidebar Mini-Gallery using GLightbox
+let activeLightbox = null;
 function initGallery() {
-    if (typeof Fancybox !== 'undefined') {
+    if (typeof GLightbox !== 'undefined') {
         try {
-            Fancybox.unbind('[data-fancybox]');
+            if (activeLightbox) {
+                activeLightbox.destroy();
+            }
         } catch (e) {}
-        Fancybox.bind('[data-fancybox]', {
-            Animated: true,
-            showClass: "f-fadeIn",
-            hideClass: "f-fadeOut",
-            compact: false, // Menonaktifkan mode compact seluler agar centering tetap stabil di mobile
-            Images: {
-                initialSize: "fit", // Memastikan gambar selalu pas dengan layar di semua perangkat
-            },
-            Toolbar: {
-                display: {
-                    left: ["infobar"],
-                    middle: [],
-                    right: ["zoom", "slideshow", "fullscreen", "close"],
-                },
-            },
+        activeLightbox = GLightbox({
+            selector: '.glightbox',
+            touchNavigation: true,
+            loop: true,
+            zoomable: true
         });
     }
 }
@@ -2098,7 +2091,7 @@ function renderSidebarGallery(key) {
     if (!container) return;
 
     const data = key === 'gallery_2025' ? loadGallery2025Data() : loadGalleryLapanganData();
-    const fancyboxGroup = key === 'gallery_2025' ? 'gallery-2025' : 'gallery-lapangan';
+    const galleryGroup = key === 'gallery_2025' ? 'gallery-2025' : 'gallery-lapangan';
     const totalItems = data.length;
 
     let html = '';
@@ -2109,7 +2102,7 @@ function renderSidebarGallery(key) {
 
         if (isVisible) {
             html += `
-                <div class="sidebar-gallery-item" data-fancybox="${fancyboxGroup}" data-type="image" data-src="${item.fullImg || item.img}" data-caption="${item.title}">
+                <div class="sidebar-gallery-item glightbox" data-gallery="${galleryGroup}" data-type="image" data-href="${item.fullImg || item.img}" data-title="${item.title}">
                     <img src="${item.img}" alt="${item.title}">
                     <div class="sidebar-gallery-info">
                         <span class="sidebar-gallery-title">${item.title}</span>
@@ -2131,7 +2124,7 @@ function renderSidebarGallery(key) {
             `;
         } else {
             html += `
-                <a style="display: none;" data-fancybox="${fancyboxGroup}" data-type="image" data-src="${item.fullImg || item.img}" data-caption="${item.title}"></a>
+                <a style="display: none;" class="glightbox" data-gallery="${galleryGroup}" data-type="image" href="${item.fullImg || item.img}" data-title="${item.title}"></a>
             `;
         }
     });
@@ -2151,7 +2144,7 @@ function renderNewsGrid() {
     const data = loadNewsData();
 
     container.innerHTML = data.map((item, idx) => `
-        <div class="gallery-card reveal active" data-fancybox="gallery-main" data-type="image" data-src="${item.fullImg || item.img}" data-caption="${item.title}: ${item.desc}">
+        <div class="gallery-card reveal active glightbox" data-gallery="gallery-main" data-type="image" data-href="${item.fullImg || item.img}" data-title="${item.title}" data-description="${item.desc}">
             <div class="gallery-image-wrapper">
                 <img class="gallery-image" src="${item.img}" alt="${item.title}">
                 <span class="gallery-badge">${item.badge}</span>
